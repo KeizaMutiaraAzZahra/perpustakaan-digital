@@ -37,4 +37,13 @@ class AuthController extends Controller
         return redirect('/landing');
     }
 
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function processRegister(Request $request) {
+        // logic simpan user
+    }
+
 }

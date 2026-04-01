@@ -15,6 +15,9 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'prosesLogin']);
 
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'processRegister']);
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard/kepala', [DashboardController::class, 'kepala']);
 Route::get('/data-buku/kepala', [BukuController::class, 'kepala']);

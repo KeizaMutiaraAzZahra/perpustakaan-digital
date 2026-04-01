@@ -38,7 +38,7 @@
                 <button type="submit" class="btn-login">Login</button>
 
                 <p class="register-text">
-                    Belum punya akun? <a href="#">Registrasi</a>
+                    Belum punya akun? <a href="{{ route('register') }}">Registrasi</a>
                 </p>
             </form>
         </div>
@@ -46,7 +46,7 @@
         <!-- RIGHT -->
         <div class="login-info">
             <h3>Perpustakaan Digital</h3>
-            <img src="{{ asset('img/landing.svg') }}" alt="logo">
+            <img src="{{ asset('img/landing.PNG') }}" alt="logo">
         </div>
 
     </div>
