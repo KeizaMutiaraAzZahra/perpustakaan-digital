@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrasi - Perpustakaan Digital</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -17,9 +17,10 @@
                 <div class="register-divider"></div>
 
                 <form action="/register" method="POST">
+                @csrf
                     <div class="register-input-group">
                         <label>Nama :</label>
-                        <input type="text" name="nama" required>
+                        <input type="text" name="name" required>
                     </div>
 
                     <div class="register-input-group">
@@ -40,6 +41,7 @@
                     <button type="submit" class="register-btn">Registrasi</button>
                 </form>
             </div>
+
         </div>
     </div>
 

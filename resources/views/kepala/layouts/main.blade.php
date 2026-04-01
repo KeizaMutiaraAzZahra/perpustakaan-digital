@@ -21,10 +21,10 @@
 <div class="dashboard-kepala">
 
     {{-- Header --}}
-    @include('partials.header')
+    @include('kepala.partials.header')
 
     {{-- Sidebar --}}
-    @include('sidebar.kepala')
+    @include('kepala.partials.sidebar')
 
     {{-- Main Content --}}
     <main class="body">
@@ -32,7 +32,7 @@
     </main>
 
     {{-- Footer --}}
-    @include('partials.footer')
+    @include('kepala.partials.footer')
 
 </div>
 

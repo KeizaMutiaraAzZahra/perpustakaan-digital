@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('kepala.layouts.main')
 
 @section('title', 'dashboard')
 
@@ -41,7 +41,7 @@
                     </tbody>
                 </table>
             </section>
-</secton>
+</section>
 </main>
 
 @endsection

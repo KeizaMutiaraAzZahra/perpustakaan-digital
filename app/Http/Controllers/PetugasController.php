@@ -14,7 +14,7 @@ class PetugasController extends Controller
     public function index()
     {
         $petugas = Petugas::orderBy('id', 'asc')->get();
-        return view('petugas.index', compact('petugas'));
+        return view('kepala.petugas.index', compact('petugas'));
     }
 
     /**
@@ -23,7 +23,7 @@ class PetugasController extends Controller
 
     public function create()
     {
-        return view('petugas.create');
+        return view('kepala.petugas.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class PetugasController extends Controller
 
         Petugas::create($data);
 
-        return redirect()->route('petugas.index');
+        return redirect()->route('kepala.petugas.index');
     }
 
     /**
@@ -52,7 +52,7 @@ class PetugasController extends Controller
      */
     public function show(Petugas $petugas)
     {
-        return view('petugas.show', compact('petugas'));
+        return view('kepala.petugas.show', compact('petugas'));
     }
 
     /**
@@ -60,7 +60,7 @@ class PetugasController extends Controller
      */
     public function edit(Petugas $petugas)
     {
-        return view('petugas.edit', compact('petugas'));
+        return view('kepala.petugas.edit', compact('petugas'));
     }
 
     /**
@@ -85,7 +85,7 @@ class PetugasController extends Controller
 
         $petugas->update($data);
 
-        return redirect()->route('petugas.index');
+        return redirect()->route('kepala.petugas.index')->with('success', 'Data petugas berhasil diperbarui!');
     }
 
     /**
@@ -94,6 +94,6 @@ class PetugasController extends Controller
     public function destroy(Petugas $petugas)
     {
         $petugas->delete();
-        return redirect()->route('petugas.index');
+        return redirect()->route('kepala.petugas.index');
     }
 }

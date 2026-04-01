@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('kepala.layouts.main')
 
 @section('title', 'Laporan Pengembalian')
 

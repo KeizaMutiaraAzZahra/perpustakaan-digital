@@ -10,7 +10,7 @@
             <h1 class="sidebar-teks"> Data Buku </h1>
     </a>
 
-    <a href="#" class="nav-item">
+    <a href="/data-anggota/kepala" class="nav-item">
         <img src="{{ asset('img/data-anggota.svg') }}" class="icon-sidebar" />
             <h1 class="sidebar-teks"> Data Anggota </h1>
     </a>
@@ -35,11 +35,13 @@
             <h1 class="sidebar-teks"> Laporan Denda </h1>
     </a>
 
-    <a href="#" class="nav-item">
-        <img src="{{ asset('img/logout.svg') }}" class="icon-sidebar" />
-            <h1 class="sidebar-teks"> Logout </h1>
-    </a>
-
+   <form action="{{ route('logout') }}" method="POST">
+    @csrf
+        <button type="submit" class="nav-item" style="display:flex; align-items:center; gap:10px; background:none; border:none; width:100%; cursor:pointer;">
+            <img src="{{ asset('img/logout.svg') }}" class="icon-sidebar" />
+            <span class="sidebar-teks">Logout</span>
+        </button>
+    </form>
   </div>
 
 </nav>

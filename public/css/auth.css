@@ -1,0 +1,228 @@
+/* CSS LOGIN */
+/* RESET KHUSUS UNTUK HALAMAN LOGIN */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Gunakan class ini di tag <body> atau div terluar */
+.login-body-wrapper {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4f6bed, #3f51b5);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* CONTAINER */
+.login-container {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* CARD */
+.login-card {
+    display: flex;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* LEFT SIDE (FORM) */
+.login-form {
+    flex: 1;
+    padding: 50px;
+    text-align: center;
+}
+
+.login-form h2 {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.divider {
+    width: 60px;
+    height: 3px;
+    background: #4f6bed;
+    margin: 10px auto 30px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    border-radius: 25px;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #4f6bed, #3f51b5);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* TEXT */
+.register-text {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.register-text a {
+    color: #4f6bed;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* RIGHT SIDE (INFO) */
+.login-info {
+    flex: 1;
+    background: #f9f9fb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+    border-left: 1px solid #eee;
+}
+
+.login-info h3 {
+    color: #3f51b5;;
+    font-weight: 600;
+}
+
+.login-info img {
+    width: 280px; /* Ukuran gambar disesuaikan */
+    height: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .login-card {
+        flex-direction: column;
+    }
+    .login-info {
+        display: none; /* Sembunyikan bagian kanan di HP agar tidak sempit */
+    }
+}
+
+/* --- PERBAIKAN REGISTRASI --- */
+
+.register-body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background: #4f6bed; 
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Mengetengahkan secara horizontal */
+    align-items: center;     /* Mengetengahkan secara vertikal */
+}
+
+.register-container {
+    width: 100%;
+    /* UBAH DARI 900px KE 450px AGAR KOTAKNYA KECIL */
+    max-width: 450px; 
+    padding: 20px;
+}
+
+.register-card {
+    background: white;
+    border-radius: 20px; /* Membuat sudut lebih bulat */
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    /* Hapus min-height agar kotak mengikuti tinggi form saja */
+    padding: 40px; 
+}
+
+.register-form-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.register-title {
+    text-align: center;
+    font-weight: 800;
+    font-size: 24px; /* Perbesar sedikit judulnya */
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.register-divider {
+    width: 100%;
+    height: 1px;
+    background: #ddd; /* Warna divider lebih soft */
+    margin-bottom: 25px;
+}
+
+.register-input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.register-input-group input {
+    width: 100%;
+    padding: 12px 15px; /* Tambah padding agar lebih nyaman diketik */
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Lebih bulat dikit */
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.register-input-group input:focus {
+    border-color: #4f6bed; /* Berubah warna saat diklik */
+}
+
+.register-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.register-btn:hover {
+    background-color: #4752c4;
+    transform: translateY(-2px); /* Efek melayang saat hover */
+}

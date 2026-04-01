@@ -7,6 +7,6 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        return view ('laporan.peminjaman');
+        return view ('kepala.laporan.peminjaman');
     }
 }

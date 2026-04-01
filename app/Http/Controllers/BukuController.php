@@ -16,7 +16,7 @@ class BukuController extends Controller
     }
     public function kepala()
     {
-         return view('data-buku.kepala');
+         return view('kepala.data-buku');
     }
 
     /**

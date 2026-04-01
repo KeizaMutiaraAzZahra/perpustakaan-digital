@@ -1,6 +1,6 @@
-@extends('layouts.main')
+@extends('kepala.layouts.main')
 
-@section('title', 'dashboard')
+@section('title', 'Dashboard')
 
 @section('content')
 <section class="frame-main">

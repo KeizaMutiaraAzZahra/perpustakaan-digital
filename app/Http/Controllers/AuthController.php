@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -16,16 +17,16 @@ class AuthController extends Controller
     public function prosesLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect('/kepala/dashboard');
         }
 
-        return back()->with('error', 'Email atau password salah');
+        return back()->with('error', 'Username atau password salah');
     }
 
     public function logout(Request $request)
@@ -34,7 +35,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/landing');
+        return redirect('/login');
     }
 
     public function showRegister()
@@ -42,8 +43,23 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function processRegister(Request $request) {
-        // logic simpan user
-    }
+    public function processRegister(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'username' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6'
+        ]);
 
+        User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'kepala'
+        ]);
+
+        return redirect('/login')->with('success', 'Registrasi berhasil!');
+    }
 }

@@ -6,6 +6,6 @@ class DashboardController extends Controller
 {
     public function kepala()
     {
-        return view('dashboard.kepala');
+        return view('kepala.dashboard');
     }
 }
