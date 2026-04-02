@@ -8,4 +8,9 @@ class DashboardController extends Controller
     {
         return view('kepala.dashboard');
     }
+
+    public function petugas()
+    {
+        return view('petugas.dashboard');
+    }
 }

@@ -12,7 +12,9 @@ class PeminjamanController extends Controller
      */
     public function index()
     {
-        //
+        $peminjaman = Peminjaman::with(['anggota','buku'])->get();
+
+        return view('petugas.peminjaman.index', compact('peminjaman'));
     }
 
     /**

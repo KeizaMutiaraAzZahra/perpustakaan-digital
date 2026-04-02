@@ -3,40 +3,40 @@
 @section('title', 'Laporan Peminjaman')
 
 @section('content')
-    <main class ="frame-main">
-        <section class="laporan-peminjaman">
-          
-              <h2 class="title">Laporan Peminjaman</h2>
+<main class="frame-main">
+    <section class="laporan-peminjaman">
 
-            <div class="content-wrapper">
-              <table>
+        <h2 class="title">Laporan Peminjaman</h2>
+
+        <div class="content-wrapper">
+            <table>
                 <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Nama Anggota</th>
-                      <th>Judul Buku</th>
-                      <th>Tanggal Pinjam</th>
-                      <th>Status</th>
+                        <th>No</th>
+                        <th>Nama Anggota</th>
+                        <th>Judul Buku</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
-              <tbody>
+                <tbody>
+                @forelse ($peminjaman as $index => $p)
                 <tr>
-                  <td>1</td>
-                  <td>Keiza</td>
-                  <td>HTML Dasar</td>
-                  <td>2026-03-27</td>
-                  <td class="status">Dikembalikan</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $p->anggota->nama ?? '-' }}</td>
+                    <td>{{ $p->buku->judul ?? '-' }}</td>
+                    <td>{{ $p->tanggal_pinjam }}</td>
+                    <td class="status">{{ $p->status }}</td>
                 </tr>
+                @empty
                 <tr>
-                <td>2</td>
-                <td>Zahra</td>
-                <td>CSS Lanjut</td>
-                <td>2026-03-28</td>
-                <td class="status">Masih Dipinjam</td>
-              </tr>
-            </tbody>
-    </table>
-  </div>
-</section>
+                    <td colspan="5" style="text-align:center;">Data tidak ada</td>
+                </tr>
+                @endforelse
+              </tbody>
+            </table>
+        </div>
+
+    </section>
 </main>
 @endsection

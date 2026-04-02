@@ -4,12 +4,14 @@
 
 @section('content')
 
-<main class="frame-main">
-<section class="laporan-peminjaman">
-    <div class="card-body">
-        <h2 class="-title">Laporan Pengembalian</h2>
-        
-        <div class="table-responsive">
+<div class="laporan-pengembalian">
+    <div class="content-wrapper">
+        <div class="report-header">
+            <h2 class="report-title">Laporan Pengembalian</h2>
+            <hr class="title-line">
+        </div>
+
+        <div class="table-container">
             <table class="report-table">
                 <thead>
                     <tr>
@@ -22,14 +24,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>1</td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td class="text-right">Rp.0</td>
+                        <td class="text-right">Rp. 0</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>2</td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -41,7 +43,5 @@
             </table>
         </div>
     </div>
-</section>
-</main>
-
+</div>
 @endsection
