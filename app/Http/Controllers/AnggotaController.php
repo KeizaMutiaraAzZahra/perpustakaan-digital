@@ -18,6 +18,10 @@ class AnggotaController extends Controller
     {
         return view('kepala.data-anggota');
     }
+    public function petugas()
+    {
+        return view('petugas.data-anggota');
+    }
 
     /**
      * Show the form for creating a new resource.

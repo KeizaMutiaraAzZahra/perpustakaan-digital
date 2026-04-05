@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; // Wajib ditambahkan agar Storage:: bekerja
 
 class BukuController extends Controller
 {
@@ -12,11 +13,14 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $buku = Buku::latest()->get();
+        return view('petugas.buku.index', compact('buku'));
     }
+
     public function kepala()
     {
-         return view('kepala.data-buku');
+        $buku = Buku::latest()->get();
+        return view('kepala.data-buku', compact('buku'));
     }
 
     /**
@@ -24,7 +28,7 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        return view('petugas.buku.create');
     }
 
     /**
@@ -32,7 +36,22 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'tahun_terbit' => 'required|digits:4',
+            'stok'         => 'required|numeric',
+            'kategori'     => 'required|in:Pelajaran,Novel,Komik',
+            'gambar'       => 'image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('buku', 'public');
+        }
+
+        Buku::create($data);
+
+        return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Ditambahkan!');
     }
 
     /**
@@ -40,7 +59,7 @@ class BukuController extends Controller
      */
     public function show(Buku $buku)
     {
-        //
+        return view('petugas.buku.show', compact('buku'));
     }
 
     /**
@@ -48,7 +67,7 @@ class BukuController extends Controller
      */
     public function edit(Buku $buku)
     {
-        //
+        return view('petugas.buku.edit', compact('buku'));
     }
 
     /**
@@ -56,7 +75,25 @@ class BukuController extends Controller
      */
     public function update(Request $request, Buku $buku)
     {
-        //
+        $data = $request->validate([
+            'judul'        => 'required|string|max:255',
+            'penulis'      => 'required|string|max:255',
+            'tahun_terbit' => 'required|digits:4',
+            'stok'         => 'required|numeric',
+            'kategori'     => 'required|in:Pelajaran,Novel,Komik',
+            'gambar'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            if ($buku->gambar && Storage::disk('public')->exists($buku->gambar)) {
+                Storage::disk('public')->delete($buku->gambar);
+            }
+
+            $data['gambar'] = $request->file('gambar')->store('buku', 'public');
+        }
+        $buku->update($data);
+
+        return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Diperbarui!');
     }
 
     /**
@@ -64,6 +101,11 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
-        //
+       if ($buku->gambar && Storage::disk('public')->exists($buku->gambar)) {
+            Storage::disk('public')->delete($buku->gambar);
+        }
+        $buku->delete();
+
+        return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Dihapus!');
     }
 }
