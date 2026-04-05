@@ -27,14 +27,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('kepala')->name('kepala.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'kepala'])->name('dashboard');
     Route::get('/data-buku', [BukuController::class, 'kepala'])->name('data-buku');
-    Route::get('/data-anggota', [AnggotaController::class, 'index'])->name('data-anggota');
+    Route::get('/data-anggota', [AnggotaController::class, 'kepala'])->name('data-anggota');
     
     // Pastikan nama ini sesuai dengan yang dipanggil di sidebar
     Route::get('/laporan/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
     Route::get('/laporan/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
 
-    Route::resource('petugas', PetugasController::class);
+    Route::resource('petugas', PetugasController::class)
+    ->parameters(['petugas' => 'petugas']);
 });
 
 // --- Halaman Petugas ---

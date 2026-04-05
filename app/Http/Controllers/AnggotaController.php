@@ -12,6 +12,10 @@ class AnggotaController extends Controller
      */
     public function index()
     {
+        //
+    }
+    public function kepala()
+    {
         return view('kepala.data-anggota');
     }
 

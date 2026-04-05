@@ -7,7 +7,7 @@
         <section class="tambah-petugas">
             <h1 class="title">Edit Petugas</h1>
 
-                <form action="{{ route('petugas.update', $petugas->id) }}" method="POST" class="form">
+                <form action="{{ route('kepala.petugas.update', $petugas->id) }}" method="POST" class="form">
                     @csrf
                     @method('PUT')
       
@@ -66,8 +66,23 @@
                             name="password">
                     </div>
 
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status">
+                       <option value="aktif" 
+                            {{ old('status', $petugas->status) == 'aktif' ? 'selected' : '' }}>
+                            Aktif
+                        </option>
+    
+                        <option value="nonaktif" 
+                            {{ old('status', $petugas->status) == 'nonaktif' ? 'selected' : '' }}>
+                            Nonaktif
+                        </option>
+                        </select>
+                    </div>
+
                     <div class="button-group">
-                        <a href="{{ route('petugas.index') }}" class="btn batal">Batal</a>
+                        <a href="{{ route('kepala.petugas.index') }}" class="btn batal">Batal</a>
                         <button type="submit" class="btn simpan">Simpan</button>
                     </div>
 

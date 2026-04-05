@@ -1,10 +1,8 @@
 @extends('kepala.layouts.main')
 
-@section('title', 'dashboard')
+@section('title', 'Data Buku')
 
 @section('content')
-
-        <main class="frame-main">
             <section class="data-buku-kepala">
             <section class="content-card">
                 <h2 class="title">Data Buku</h2>

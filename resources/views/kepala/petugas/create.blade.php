@@ -7,7 +7,7 @@
         <section class="tambah-petugas">
             <h1 class="title">Tambah Petugas</h1>
 
-                <form action="{{ route('petugas.store') }}" method="POST" class="form">
+                <form action="{{ route('kepala.petugas.store') }}" method="POST" class="form">
                     @csrf
       
                     <div class="form-group">
@@ -61,6 +61,14 @@
                             name="password" 
                             placeholder="Masukkan password"
                             required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status">
+                            <option value="aktif">Aktif</option>
+                            <option value="nonaktif">Nonaktif</option>
+                        </select>
                     </div>
 
                     <div class="button-group">

@@ -60,13 +60,15 @@
 
     <!-- ACTION BUTTON -->
     <div class="actions">
-      <a href="{{ route('petugas.edit', $petugas->id) }}" class="btn edit">Edit</a>
-      <form action="{{ route('petugas.destroy', $petugas->id) }}" method="POST" style="display:inline;">
-      @csrf
-      @method('DELETE')
-      <button class="btn danger">Hapus</button>
-      </form>
-      <a href="{{ route('petugas.index') }}" class="btn success">Batal</a>
+      <a href="{{ route('kepala.petugas.edit', $petugas) }}" class="btn edit">Edit</a>
+
+    <form action="{{ route('kepala.petugas.destroy', $petugas->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button class="btn danger">Hapus</button>
+    </form>
+
+    <a href="{{ route('kepala.petugas.index') }}" class="btn success">Batal</a>
     </div>
 
 </section>

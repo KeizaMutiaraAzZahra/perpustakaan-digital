@@ -36,8 +36,9 @@ class PetugasController extends Controller
             'alamat' => 'required',
             'jenis_kelamin' => 'required',
             'no_telepon' => 'required',
-            'username' => 'required|unique:petugas',
-            'password' => 'required|min:6'
+            'username' => 'required|unique:petugas,username',
+            'password' => 'required|min:6',
+            'status' => 'required|in:aktif,nonaktif'
         ]);
 
         $data['password'] = Hash::make($data['password']);
@@ -74,7 +75,8 @@ class PetugasController extends Controller
             'jenis_kelamin' => 'required',
             'no_telepon' => 'required',
             'username' => 'required|unique:petugas,username,' . $petugas->id,
-            'password' => 'nullable|min:6'
+            'password' => 'nullable|min:6',
+            'status' => 'required|in:aktif,nonaktif'
         ]);
 
         if ($request->password) {

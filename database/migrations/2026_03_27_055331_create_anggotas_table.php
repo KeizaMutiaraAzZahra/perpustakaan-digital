@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('anggotas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('nama');
+            $table->string('kelas');
+            $table->string('jurusan');
+            $table->string('no_telepon');
+            $table->string('username')->unique(); // Unique agar tidak ada username kembar
+            $table->string('password');
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
+            // tgl daftar otomatis diambil dari created_at
+            $table->timestamps(); 
         });
     }
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('no_telepon');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('status')->default('aktif');
             $table->timestamps();
         });
     }

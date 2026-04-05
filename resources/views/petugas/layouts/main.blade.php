@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Petugas - Perpustakaan</title>
+    <title>Perpustakaan Digital</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('css/style-petugas.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <div class="dashboard-container">
-        {{-- Memanggil Sidebar --}}
-        @include('petugas.partials.sidebar')
+    <div class="app-layout">
+        @include('petugas.partials.navigasi')
 
-        <div class="main-wrapper">
-            {{-- Memanggil Header --}}
-            @include('petugas.partials.header')
-
-            {{-- Area Konten Dinamis --}}
-            <main class="content-body">
+        <main class="main-content">
+            <div class="content-container">
                 @yield('content')
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>

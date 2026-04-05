@@ -12,7 +12,8 @@ class Petugas extends Model
         'jenis_kelamin',
         'no_telepon',
         'username',
-        'password'
+        'password',
+        'status'
     ];
 
     protected $hidden = [
