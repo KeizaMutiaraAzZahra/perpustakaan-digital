@@ -24,7 +24,7 @@ Route::post('/register', [AuthController::class, 'processRegister']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // --- Halaman Kepala ---
-Route::prefix('kepala')->name('kepala.')->group(function () {
+Route::prefix('kepala')->name('kepala.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'kepala'])->name('dashboard');
     Route::get('/data-buku', [BukuController::class, 'kepala'])->name('data-buku');
     Route::get('/data-anggota', [AnggotaController::class, 'kepala'])->name('data-anggota');
@@ -33,8 +33,7 @@ Route::prefix('kepala')->name('kepala.')->group(function () {
     Route::get('/laporan/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
 
-    Route::resource('petugas', PetugasController::class)
-    ->parameters(['petugas' => 'petugas']);
+    Route::resource('petugas', PetugasController::class);
 });
 
 // --- Halaman Petugas ---
@@ -43,7 +42,5 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
     
     Route::resource('buku', BukuController::class);
     Route::get('/data-anggota', [AnggotaController::class, 'index'])->name('data-anggota');
-    Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
-    Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('pengembalian');
-    Route::get('/denda', [LaporanController::class, 'denda'])->name('denda');
+    Route::resource('peminjaman', PeminjamanController::class);
 });

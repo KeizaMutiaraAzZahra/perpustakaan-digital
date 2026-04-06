@@ -23,7 +23,19 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/kepala/dashboard');
+
+            $user = Auth::user();
+
+            // CEK ROLE
+            if ($user->role == 'petugas') {
+                return redirect('/petugas/dashboard');
+            } elseif ($user->role == 'kepala') {
+                return redirect('/kepala/dashboard');
+            }
+
+            // kalau role tidak ada
+            Auth::logout();
+            return back()->with('error', 'Role tidak dikenali');
         }
 
         return back()->with('error', 'Username atau password salah');

@@ -1241,3 +1241,334 @@
 
 .tambah-buku-petugas .btn-batal:hover { background-color: #006400; }
 .tambah-buku-petugas .btn-simpan:hover { background-color: #485ecb; }
+
+/* CSS DETAIL Buku Petugas */
+
+.main-content-detail {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-detail {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.title-section {
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.table-container {
+    border: 1px solid #000;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.table-header {
+    text-align: center;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.detail-table {
+    width: 100%;
+    padding: 20px;
+    border-collapse: collapse;
+}
+
+.detail-table td {
+    padding: 8px 10px;
+    font-weight: 600;
+}
+
+.detail-table td:first-child {
+    width: 150px;
+}
+
+.detail-table td:nth-child(2) {
+    width: 20px;
+}
+
+/* Status Badges */
+.badge {
+    padding: 5px 15px;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.badge-nonaktif { background-color: #D9534F; }
+.badge-aktif { background-color: #5CB85C; }
+
+/* Riwayat Section */
+.riwayat-section {
+    padding: 0 20px 20px 20px;
+}
+
+.riwayat-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.riwayat-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.riwayat-list li {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-edit { background-color: #2E4583; } /* Biru tua */
+.btn-nonaktifkan { background-color: #D9534F; } /* Merah */
+.btn-batal-detail { background-color: #008000; } /* Hijau */
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+/* CSS DASHBOARD PETUGAS */
+
+.dashboard-petugas {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-petugas .stats-container {
+    display: grid;
+    /* Kita set 2 kolom dengan lebar masing-masing 200px atau 220px */
+    grid-template-columns: repeat(2, 220px); 
+    gap: 25px;
+    margin-bottom: 40px;
+    /* Pastikan nempel ke kiri */
+    justify-content: start; 
+}
+
+.dashboard-petugas .stat-card {
+    background-color: #4F6BED;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* RAHASIA: Supaya kartu jadi kotak sempurna (Square) */
+    aspect-ratio: 1 / 1; 
+    transition: transform 0.2s;
+    box-shadow: 0 4px 10px rgba(79, 107, 237, 0.2);
+}
+
+.dashboard-petugas .stat-card h3 {
+    font-size: 16px; /* Perkecil sedikit agar proporsional */
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.dashboard-petugas .stat-card i {
+    font-size: 45px; /* Ikon dibuat lebih besar sesuai desain */
+}
+
+.dashboard-petugas .stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Bagian Aktivitas Terbaru */
+.dashboard-petugas .activity-section {
+    margin-top: 20px;
+}
+
+.dashboard-petugas .activity-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.dashboard-petugas .activity-table {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    /* Tambahkan max-width jika ingin listnya tidak terlalu lebar */
+    max-width: 800px; 
+}
+
+.dashboard-petugas .activity-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.dashboard-petugas .activity-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-petugas .activity-item i {
+    font-size: 20px;
+    margin-right: 15px;
+    color: #444;
+}
+
+.dashboard-petugas .activity-item span {
+    font-weight: 500;
+    font-size: 15px;
+    color: #333;
+}
+
+.peminjaman-petugas {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.peminjaman-petugas .action-bar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+/* Form Pencarian */
+.peminjaman-petugas .search-form {
+    display: flex;
+    align-items: center;
+}
+
+/* Box Putih */
+.peminjaman-petugas .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    background: #fff;
+    overflow: hidden; /* Penting: supaya tombol cari tidak 'balapan' keluar radius */
+    height: 42px;
+}
+
+.peminjaman-petugas .search-box i {
+    padding: 0 12px;
+    color: #888;
+}
+
+.peminjaman-petugas .search-box input {
+    border: none;
+    padding: 5px;
+    outline: none;
+    width: 300px; /* Sesuaikan lebar di sini */
+    height: 100%;
+}
+
+/* Tombol Cari yang menyatu di dalam box */
+.peminjaman-petugas .btn-cari {
+    background: #4F6BED;
+    color: white;
+    border: none;
+    height: 100%;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: 600;
+    /* Hapus border-radius manual karena sudah diatur oleh overflow:hidden di .search-box */
+    border-radius: 0; 
+}
+
+.peminjaman-petugas .btn-cari:hover {
+    background: #3b54c7;
+}
+
+/* Tombol + Input Pinjam */
+.peminjaman-petugas .btn-input {
+    background: #4F6BED;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap; /* Mencegah teks tertekuk ke bawah */
+}
+
+/* Tabel */
+.peminjaman-petugas .table-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.peminjaman-petugas .peminjaman-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.peminjaman-petugas .peminjaman-table thead {
+    background-color: #f4f4f4;
+}
+
+.peminjaman-petugas .peminjaman-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 2px solid #eee;
+}
+
+.peminjaman-petugas .peminjaman-table td {
+    padding: 15px;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Badge Status */
+.peminjaman-petugas .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+.badge.dipinjam { background-color: #f0ad4e; }
+.badge.terlambat { background-color: #d9534f; }
+.badge.kembali { background-color: #5cb85c; }
+
+/* Icon Detail */
+.btn-detail-icon {
+    margin-left: 10px;
+    color: #4F6BED;
+    font-size: 18px;
+    vertical-align: middle;
+}

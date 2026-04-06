@@ -8,34 +8,42 @@
                 <h2 class="title">Data Buku</h2>
                 <hr>
 
-                <div class="search-bar">
-                    <input type="text" placeholder="Cari Buku">
-                    <button>Cari</button>
-                </div>
-
+            <form method="GET" class="search-bar">
+                <input type="text" name="cari" placeholder="Cari Buku" value="{{ request('cari') }}">
+                <button type="submit">Cari</button>
+            </form>
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Judul Buku</th>
-                            <th>Jumlah Dipinjam</th>
+                            <th>Penulis</th>
+                            <th>Tahun Terbit</th>
+                            <th>Kategori</th>
+                            <th>Stok</th>
                             <th>Status</th>
-                            <th>Total Denda</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td><span class="status kembali">Kembali</span></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td><span class="status terlambat">Terlambat</span></td>
-                            <td></td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                        @forelse ($buku as $item)
+                            <tr>
+                                <td>{{ $item->judul }}</td>
+                                <td>{{ $item->penulis }}</td>
+                                <td>{{ $item->tahun_terbit }}</td>
+                                <td>{{ $item->kategori }}</td>
+                                <td>{{ $item->stok }}</td>
+                                <td>
+                                    @if ($item->stok > 0)
+                                        <span class="status kembali">Tersedia</span>
+                                    @else
+                                        <span class="status terlambat">Habis</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align:center;">Data buku tidak ada</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>

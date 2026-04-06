@@ -6,25 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peminjaman extends Model
 {
-    protected $table = 'peminjaman'; // sesuaikan dengan nama tabel di DB
+    protected $table = 'peminjamans';
 
     protected $fillable = [
-        'anggota_id',
+        'anggota_id', // Sudah diganti
         'buku_id',
         'tanggal_pinjam',
+        'jatuh_tempo',
         'tanggal_kembali',
-        'status'
+        'status',
+        'denda'
     ];
 
-    // 🔹 Relasi ke Anggota
+    // Relasi ke Anggota
     public function anggota()
     {
-        return $this->belongsTo(Anggota::class);
+        // Pastikan model Anggota.php sudah ada
+        return $this->belongsTo(Anggota::class, 'anggota_id');
     }
 
-    // 🔹 Relasi ke Buku
     public function buku()
     {
-        return $this->belongsTo(Buku::class);
+        return $this->belongsTo(Buku::class, 'buku_id');
     }
 }

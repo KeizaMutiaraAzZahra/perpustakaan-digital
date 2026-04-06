@@ -15,13 +15,13 @@
             <i class="bi bi-people"></i> <span>Data Anggota</span>
         </a>
 
-        <a href="{{ route('petugas.peminjaman') }}" class="nav-item">
+        <a href="{{ route('petugas.peminjaman.index') }}" class="nav-item">
             <i class="bi bi-box-arrow-in-up-right"></i> <span>Data Peminjaman</span>
         </a>
-        <a href="{{ route('petugas.pengembalian') }}" class="nav-item">
+        <a href="#" class="nav-item">
            <i class="bi bi-box-arrow-up-right"></i> <span>Data Pengembalian</span>
         </a>
-        <a href="{{ route('petugas.denda') }}" class="nav-item">
+        <a href="#" class="nav-item">
             <i class="bi bi-journal-x"></i> <span>Data Denda</span>
         </a>
 

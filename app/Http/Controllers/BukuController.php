@@ -11,18 +11,31 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private function getDataBuku()
+    {
+        return Buku::latest()->get();
+    }
+
     public function index()
     {
-        $buku = Buku::latest()->get();
+        $buku = $this->getDataBuku();
         return view('petugas.buku.index', compact('buku'));
     }
 
-    public function kepala()
+    public function kepala(Request $request)
     {
-        $buku = Buku::latest()->get();
+        $query = Buku::query();
+
+        if ($request->cari) {
+            $query->where('judul', 'like', '%' . $request->cari . '%')
+                ->orWhere('penulis', 'like', '%' . $request->cari . '%');
+        }
+
+        $buku = $query->latest()->get();
+
         return view('kepala.data-buku', compact('buku'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
