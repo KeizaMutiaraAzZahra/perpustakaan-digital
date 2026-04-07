@@ -4,7 +4,6 @@
 
 @section('content')
             <section class="data-buku-kepala">
-            <section class="content-card">
                 <h2 class="title">Data Buku</h2>
                 <hr>
 
@@ -46,7 +45,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </section>
 </section>
 </main>
 

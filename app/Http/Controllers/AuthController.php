@@ -11,6 +11,18 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            if ($user->role == 'kepala') {
+                return redirect()->route('kepala.dashboard');
+            } elseif ($user->role == 'petugas') {
+                return redirect()->route('petugas.dashboard');
+            } elseif ($user->role == 'anggota') {
+                return redirect()->route('anggota.dashboard');
+            }
+        }
+
         return view('auth.login');
     }
 
@@ -26,19 +38,21 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // CEK ROLE
-            if ($user->role == 'petugas') {
-                return redirect('/petugas/dashboard');
-            } elseif ($user->role == 'kepala') {
-                return redirect('/kepala/dashboard');
+            // REDIRECT BERDASARKAN ROLE
+            if ($user->role == 'kepala') {
+                return redirect()->route('kepala.dashboard');
+            } elseif ($user->role == 'petugas') {
+                return redirect()->route('petugas.dashboard');
+            } elseif ($user->role == 'anggota') {
+                return redirect()->route('anggota.dashboard');
             }
 
-            // kalau role tidak ada
+            // Jika role tidak dikenali (keamanan tambahan)
             Auth::logout();
-            return back()->with('error', 'Role tidak dikenali');
+            return redirect('/login')->with('error', 'Akses ditolak: Role tidak dikenali.');
         }
 
-        return back()->with('error', 'Username atau password salah');
+        return back()->with('error', 'Username atau password salah.');
     }
 
     public function logout(Request $request)
@@ -58,10 +72,10 @@ class AuthController extends Controller
     public function processRegister(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'username' => 'required|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|unique:users|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
+            'password' => 'required|string|min:6|confirmed', // 'confirmed' butuh input password_confirmation di view
         ]);
 
         User::create([
@@ -69,9 +83,9 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'kepala'
+            'role' => 'anggota', // Default registrasi biasanya untuk Anggota, bukan Kepala
         ]);
 
-        return redirect('/login')->with('success', 'Registrasi berhasil!');
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }

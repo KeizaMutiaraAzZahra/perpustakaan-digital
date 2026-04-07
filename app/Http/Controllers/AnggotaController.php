@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
@@ -14,10 +15,20 @@ class AnggotaController extends Controller
     {
         //
     }
-    public function kepala()
+
+    public function kepala(Request $request)
     {
-        return view('kepala.data-anggota');
+        $query = User::where('role', 'anggota');
+
+        if ($request->cari) {
+            $query->where('name', 'like', '%' . $request->cari . '%');
+        }
+
+        $anggota = $query->get();
+
+        return view('kepala.data-anggota', compact('anggota'));
     }
+    
     public function petugas()
     {
         return view('petugas.data-anggota');

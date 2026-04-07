@@ -122,11 +122,11 @@
                 Sistem perpustakaan berbasis digital untuk memudahkan siswa
                 dalam mencari, meminjam, dan mengelola buku secara online.
             </p>
-            <a href="/login" class="btn">Masuk Sistem</a>
+            <a href="{{ route('login') }}" class="btn">Masuk Sistem</a>
         </div>
 
         <img src="{{ asset('img/landing.PNG') }}" alt="library">
-    </section>
+    </section>  
 
     <!-- FEATURES -->
     <section class="features">

@@ -34,17 +34,23 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse ($anggota as $index => $a)
                 <tr>
-                    <td class="text-center">1</td>
-                    <td>Nama Siswa</td>
-                    <td>XII</td>
-                    <td>RPL</td>
-                    <td>08123456789</td>
-                    <td>01-01-2024</td>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td>{{ $a->name }}</td>
+                    <td>{{ $a->kelas ?? '-' }}</td>
+                    <td>{{ $a->jurusan ?? '-' }}</td>
+                    <td>{{ $a->no_telepon ?? '-' }}</td>
+                    <td>{{ $a->created_at->format('d-m-Y') }}</td>
                     <td class="text-center">
                         <span class="badge status-aktif">Aktif</span>
                     </td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center">Data tidak ditemukan</td>
+                </tr>
+@endforelse
             </tbody>
         </table>
     </div>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,21 +11,18 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * Atribut yang bisa diisi secara massal.
      */
     protected $fillable = [
         'name',
         'username',
         'email',
         'password',
-        'role'
+        'role', // 'kepala', 'petugas', 'anggota'
     ];
+
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Atribut yang disembunyikan saat serialisasi.
      */
     protected $hidden = [
         'password',
@@ -34,9 +30,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casting atribut.
      */
     protected function casts(): array
     {
@@ -44,5 +38,31 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // --- HELPER UNTUK CEK ROLE ---
+
+    /**
+     * Cek apakah user adalah Kepala Perpustakaan
+     */
+    public function isKepala()
+    {
+        return $this->role === 'kepala';
+    }
+
+    /**
+     * Cek apakah user adalah Petugas
+     */
+    public function isPetugas()
+    {
+        return $this->role === 'petugas';
+    }
+
+    /**
+     * Cek apakah user adalah Anggota
+     */
+    public function isAnggota()
+    {
+        return $this->role === 'anggota';
     }
 }

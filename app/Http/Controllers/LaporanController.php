@@ -24,7 +24,14 @@ class LaporanController extends Controller
         return view('kepala.laporan.denda', compact('denda'));
     }
 
-    public function pengembalian() {
-        return view('kepala.laporan.pengembalian');
+    public function pengembalian()
+    {
+        $pengembalian = Peminjaman::with(['anggota', 'buku'])
+            ->where('status', 'Kembali')
+            ->whereNotNull('tanggal_kembali') 
+            ->latest()
+            ->get();
+
+        return view('kepala.laporan.pengembalian', compact('pengembalian'));
     }
 }
