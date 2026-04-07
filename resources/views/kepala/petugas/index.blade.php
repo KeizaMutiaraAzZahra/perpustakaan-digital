@@ -36,20 +36,16 @@
             <th class="text-center">Status</th> <th class="text-center">Aksi</th>   </tr>
     </thead>
     <tbody>
-        @foreach ($petugas as $index => $p)
+        @foreach ($petugas as $p)
         <tr>
-            <td class="text-center">{{ $index + 1 }}</td>
             <td>{{ $p->nama }}</td>
             <td>{{ $p->alamat }}</td>
-            <td>{{ $p->jenis_kelamin == 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+            <td>{{ $p->jenis_kelamin }}</td>
             <td>{{ $p->no_telepon }}</td>
-            
-            <td class="text-center">
-                <span class="status {{ strtolower($p->status) }}">{{ $p->status }}</span>
-            </td>
-            
-            <td class="text-center">
-                <a href="{{ route('kepala.petugas.show', $p->id) }}" class="btn-detail">Detail</a>
+            <td>{{ $p->user->status }}</td>
+
+            <td>
+                <a href="{{ route('kepala.petugas.show', $p->id) }}">Detail</a>
             </td>
         </tr>
         @endforeach

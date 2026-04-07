@@ -45,6 +45,8 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
 
     Route::resource('petugas', PetugasController::class);
+    Route::patch('/petugas/{id}/status', [PetugasController::class, 'toggleStatus'])
+    ->name('petugas.toggleStatus');
 });
 
 // --- HALAMAN PETUGAS (Hanya role: petugas) ---

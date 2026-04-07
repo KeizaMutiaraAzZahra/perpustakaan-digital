@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             // Role
             $table->enum('role', ['kepala', 'petugas', 'anggota'])->default('anggota');
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->timestamps();
         });
     }

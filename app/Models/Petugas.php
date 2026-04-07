@@ -6,22 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Petugas extends Model
 {
-    protected $fillable = [
-        'nama',
-        'alamat',
-        'jenis_kelamin',
-        'no_telepon',
-        'username',
-        'password',
-        'status'
-    ];
-
-    protected $hidden = [
-        'password'
-    ];
-
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
