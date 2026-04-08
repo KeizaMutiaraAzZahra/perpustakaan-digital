@@ -54,7 +54,7 @@ Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petug
     Route::get('/dashboard', [DashboardController::class, 'petugas'])->name('dashboard');
     
     Route::resource('buku', BukuController::class);
-    Route::get('/data-anggota', [AnggotaController::class, 'index'])->name('data-anggota');
+    Route::resource('anggota', AnggotaController::class);
     Route::resource('peminjaman', PeminjamanController::class);
     
     // Opsional: Tambahkan route pengembalian & denda jika diperlukan petugas

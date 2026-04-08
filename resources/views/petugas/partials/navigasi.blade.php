@@ -11,7 +11,7 @@
         <a href="{{ route('petugas.buku.index') }}" class="nav-item">
             <i class="bi bi-book"></i> <span>Data Buku</span>
         </a>
-        <a href="{{ route('petugas.data-anggota') }}" class="nav-item">
+        <a href="{{ route('petugas.anggota.index') }}" class="nav-item">
             <i class="bi bi-people"></i> <span>Data Anggota</span>
         </a>
 
