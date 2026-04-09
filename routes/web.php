@@ -49,15 +49,18 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
     ->name('petugas.toggleStatus');
 });
 
-// --- HALAMAN PETUGAS (Hanya role: petugas) ---
 Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petugas"'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'petugas'])->name('dashboard');
     
     Route::resource('buku', BukuController::class);
     Route::resource('anggota', AnggotaController::class);
-    Route::resource('peminjaman', PeminjamanController::class);
+
+    Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman');
+
+    Route::put('/peminjaman/konfirmasi/{id}', [PeminjamanController::class, 'konfirmasi'])->name('peminjaman.konfirmasi');
+
+    Route::put('/peminjaman/kembalikan/{id}', [PeminjamanController::class, 'kembalikan'])->name('peminjaman.kembalikan');
     
-    // Opsional: Tambahkan route pengembalian & denda jika diperlukan petugas
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('pengembalian');
     Route::get('/denda', [PeminjamanController::class, 'denda'])->name('denda');
 });

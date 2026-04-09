@@ -4,42 +4,62 @@
 
 @section('content')
 <div class="dashboard-petugas">
-    <h1 class="page-title">DASHBOARD</h1>
+    <h2 class="title">DASHBOARD</h2>
 
-    <div class="stats-container">
+    <div class="stats-grid">
         <div class="stat-card">
-            <h3>Total Anggota</h3>
-            <i class="bi bi-people"></i>
+            <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+            <div class="stat-info">
+                <span class="stat-label">Total Anggota</span>
+                <h3 class="stat-value">{{ $totalAnggota }}</h3>
+            </div>
         </div>
+
         <div class="stat-card">
-            <h3>Total Buku</h3>
-            <i class="bi bi-book"></i>
+            <div class="stat-icon"><i class="bi bi-book"></i></div>
+            <div class="stat-info">
+                <span class="stat-label">Total Buku</span>
+                <h3 class="stat-value">{{ $totalBuku }}</h3>
+            </div>
         </div>
+
         <div class="stat-card">
-            <h3>Buku Dipinjam</h3>
-            <i class="bi bi-book-half"></i>
+            <div class="stat-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <div class="stat-info">
+                <span class="stat-label">Buku Dipinjam</span>
+                <h3 class="stat-value">{{ $bukuDipinjam }}</h3>
+            </div>
         </div>
+
         <div class="stat-card">
-            <h3>Total Denda</h3>
-            <i class="bi bi-cash-stack"></i>
+            <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="stat-info">
+                <span class="stat-label">Total Denda</span>
+                <h3 class="stat-value">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h3>
+            </div>
         </div>
     </div>
 
-    <div class="activity-section">
-        <h2 class="activity-title">Aktivitas Terbaru</h2>
-        <div class="activity-table">
-            <div class="activity-item">
-                <i class="bi bi-arrow-right-circle"></i>
-                <span>Peminjaman : Keiza Mutiara - 2 Februari 2026</span>
-            </div>
-            <div class="activity-item">
-                <i class="bi bi-arrow-left-circle"></i>
-                <span>Pengembalian : Zara - 16 Februari 2026</span>
-            </div>
-            <div class="activity-item">
-                <i class="bi bi-exclamation-circle"></i>
-                <span>Anggota Didenda : Intan - Rp 15.000</span>
-            </div>
+    <div class="recent-activity">
+        <h3 class="section-subtitle">Aktivitas Terbaru</h3>
+        <div class="activity-list">
+            @forelse ($aktivitasTerbaru as $item)
+                <div class="activity-item">
+                    <i class="bi bi-arrow-right-square"></i>
+                    <p>
+                        {{-- Logika sederhana: jika denda > 0 maka tampilkan info denda, jika tidak tampilkan peminjaman --}}
+                        @if($item->denda > 0)
+                            Anggota Didenda : <strong>{{ $item->anggota->nama }}</strong> - Rp {{ number_format($item->denda, 0, ',', '.') }}
+                        @else
+                            Peminjaman : <strong>{{ $item->anggota->nama }}</strong> - {{ $item->created_at->format('d F Y') }}
+                        @endif
+                    </p>
+                </div>
+            @empty
+                <div class="activity-item">
+                    <p>Tidak ada aktivitas terbaru saat ini.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 </div>

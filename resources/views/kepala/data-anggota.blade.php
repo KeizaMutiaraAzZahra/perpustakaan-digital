@@ -33,24 +33,29 @@
                     <th class="text-center">Status</th>
                 </tr>
             </thead>
-            <tbody>
-                @forelse ($anggota as $index => $a)
+           <tbody>
+                @foreach ($anggota as $index => $a)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    <td>{{ $a->name }}</td>
-                    <td>{{ $a->kelas ?? '-' }}</td>
-                    <td>{{ $a->jurusan ?? '-' }}</td>
-                    <td>{{ $a->no_telepon ?? '-' }}</td>
+                    
+                    {{-- Pakai nama, bukan name --}}
+                    <td>{{ $a->nama }}</td>
+                    
+                    <td>{{ $a->kelas }}</td>
+                    <td>{{ $a->jurusan }}</td>
+                    <td>{{ $a->no_telepon }}</td>
                     <td>{{ $a->created_at->format('d-m-Y') }}</td>
+                    
                     <td class="text-center">
-                        <span class="badge status-aktif">Aktif</span>
+                        {{-- Ini cara paling gampang, langsung keluarin isinya --}}
+                        @if($a->status == 'Aktif' || $a->status == 'aktif')
+                            <span style="color: green; font-weight: bold;">Aktif</span>
+                        @else
+                            <span style="color: red; font-weight: bold;">Nonaktif</span>
+                        @endif
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="7" class="text-center">Data tidak ditemukan</td>
-                </tr>
-@endforelse
+                @endforeach
             </tbody>
         </table>
     </div>

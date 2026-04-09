@@ -18,12 +18,10 @@
 
       <button onclick="searchTable()" class="btn-search">Cari</button>
 
-      <button class="btn-add">
-          <a href="{{ route('kepala.petugas.create') }}">
-              <img src="{{ asset('img/tambah.svg') }}" class="icon-tambah"/>
-                  <span class="text-tambah"> Tambah Petugas </span>
-          </a>
-      </button>
+        <a href="{{ route('kepala.petugas.create') }}" class="btn-add">
+            <img src="{{ asset('img/tambah.svg') }}" class="icon-tambah"/>
+            <span class="text-tambah">Tambah Petugas</span>
+        </a>
     </div>
 
     <table id="tablePetugas" class="data-table">
@@ -36,19 +34,23 @@
             <th class="text-center">Status</th> <th class="text-center">Aksi</th>   </tr>
     </thead>
     <tbody>
-        @foreach ($petugas as $p)
-        <tr>
-            <td>{{ $p->nama }}</td>
-            <td>{{ $p->alamat }}</td>
-            <td>{{ $p->jenis_kelamin }}</td>
-            <td>{{ $p->no_telepon }}</td>
-            <td>{{ $p->user->status }}</td>
-
-            <td>
-                <a href="{{ route('kepala.petugas.show', $p->id) }}">Detail</a>
-            </td>
-        </tr>
-        @endforeach
+    @foreach ($petugas as $index => $p)
+    <tr>
+        <td class="text-center">{{ $index + 1 }}</td>
+        <td>{{ $p->nama }}</td>
+        <td>{{ $p->alamat }}</td>
+        <td>{{ $p->jenis_kelamin }}</td>
+        <td>{{ $p->no_telepon }}</td>
+        <td class="text-center">
+            <span class="status {{ $p->user->status == 'aktif' ? 'aktif' : 'nonaktif' }}">
+                {{ $p->user->status }}
+            </span>
+        </td>
+        <td class="text-center">
+            <a href="{{ route('kepala.petugas.show', $p->id) }}" class="btn-detail">Detail</a>
+        </td>
+    </tr>
+    @endforeach
     </tbody>
 </table>
 

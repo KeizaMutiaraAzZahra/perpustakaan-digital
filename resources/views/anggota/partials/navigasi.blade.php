@@ -5,23 +5,23 @@
     </header>
 
     <nav class="nav-sidebar">
-        <a href="{{ route('petugas.dashboard') }}" class="nav-item {{ request()->is('kepala/dashboard') ? 'active' : '' }}">
+        <a href="{{ route('anggota.dashboard') }}" class="nav-item {{ request()->is('kepala/dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid"></i> <span>Dashboard</span>
         </a>
-        <a href="{{ route('petugas.buku.index') }}" class="nav-item">
+        <a href="{{ route('anggota.buku.index') }}" class="nav-item">
             <i class="bi bi-book"></i> <span>Data Buku</span>
         </a>
-        <a href="{{ route('petugas.anggota.index') }}" class="nav-item">
+        <a href="{{ route('anggota.anggota.index') }}" class="nav-item">
             <i class="bi bi-people"></i> <span>Data Anggota</span>
         </a>
 
-        <a href="{{ route('petugas.peminjaman') }}" class="nav-item">
+        <a href="{{ route('anggota.peminjaman') }}" class="nav-item">
             <i class="bi bi-box-arrow-in-up-right"></i> <span>Data Peminjaman</span>
         </a>
-        <a href="{{ route('petugas.pengembalian') }}" class="nav-item">
+        <a href="{{ route('anggota.pengembalian') }}" class="nav-item">
            <i class="bi bi-box-arrow-up-right"></i> <span>Data Pengembalian</span>
         </a>
-        <a href="{{ route('petugas.denda') }}" class="nav-item">
+        <a href="{{ route('anggota.denda') }}" class="nav-item">
             <i class="bi bi-journal-x"></i> <span>Data Denda</span>
         </a>
 

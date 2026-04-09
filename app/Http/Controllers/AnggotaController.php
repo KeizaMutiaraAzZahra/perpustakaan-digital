@@ -31,9 +31,9 @@ class AnggotaController extends Controller
      */
     public function kepala(Request $request)
     {
-        $query = Anggota::query();
+        $query = Anggota::with('user');
 
-        if ($request->cari) {
+        if ($request->filled('cari')) {
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
 
