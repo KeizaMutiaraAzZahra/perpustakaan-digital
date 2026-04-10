@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->nullable(); 
             $table->date('jatuh_tempo');
-            $table->enum('status', ['Dipinjam', 'Kembali', 'Terlambat'])->default('Dipinjam');
+            $table->enum('status', ['Diproses', 'Dipinjam', 'Kembali', 'Terlambat'])->default('Diproses');
             $table->integer('denda')->default(0);
             $table->timestamps();
         });

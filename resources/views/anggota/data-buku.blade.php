@@ -50,26 +50,36 @@
                     </div>
                 </div>
             </div>
-            
-            <form action="{{ route('anggota.peminjaman.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="buku_id" value="{{ $item->id }}">
-                <button type="submit" class="btn-pinjam" {{ $item->stok <= 0 ? 'disabled' : '' }}>Pinjam</button>
-            </form>
+    
+            @php
+                // Cek status pinjam user ini untuk buku ini
+                $statusPinjam = \App\Models\Peminjaman::where('anggota_id', auth()->user()->anggota->id)
+                                    ->where('buku_id', $item->id)
+                                    ->whereIn('status', ['Diproses', 'Dipinjam'])
+                                    ->first();
+            @endphp
+
+            <div class="action-wrapper" style="margin-top: 15px;">
+                @if($statusPinjam)
+                    {{-- Tombol mati (disabled) sebagai penanda status --}}
+                    <button class="btn-pinjam" disabled style="background-color: {{ $statusPinjam->status == 'Diproses' ? '#ffc107' : '#198754' }}; color: {{ $statusPinjam->status == 'Diproses' ? '#000' : '#fff' }}; opacity: 1; border: none; width: 100%; cursor: default;">
+                        <i class="bi {{ $statusPinjam->status == 'Diproses' ? 'bi-clock' : 'bi-check-circle' }}"></i>
+                        {{ $statusPinjam->status == 'Diproses' ? 'Menunggu Konfirmasi' : 'Sedang Dipinjam' }}
+                    </button>
+                @else
+                    <form action="{{ route('anggota.peminjaman.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="buku_id" value="{{ $item->id }}">
+                        <button type="submit" class="btn-pinjam" {{ $item->stok <= 0 ? 'disabled' : '' }} style="width: 100%;">
+                            {{ $item->stok <= 0 ? 'Stok Habis' : 'Pinjam' }}
+                        </button>
+                    </form>
+                @endif
+            </div>
         </div>
         @endforeach
     </div>
 
-    <div class="pagination-container">
-        <div class="pagination-wrapper">
-            <a href="#" class="page-nav"><i class="bi bi-chevron-left"></i></a>
-            <a href="#" class="page-number active">1</a>
-            <a href="#" class="page-number">2</a>
-            <a href="#" class="page-number">3</a>
-            <a href="#" class="page-number">4</a>
-            <a href="#" class="page-nav"><i class="bi bi-chevron-right"></i></a>
-        </div>
-    </div>
+    {{-- Baris pagination dihapus sementara karena bikin error links() --}}
 </div>
-
 @endsection

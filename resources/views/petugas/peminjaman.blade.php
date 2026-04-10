@@ -38,36 +38,27 @@
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td>{{ $p->anggota->nama }}</td>
                     <td>{{ $p->buku->judul }}</td>
-                    <td>{{ $p->tgl_pinjam ? \Carbon\Carbon::parse($p->tgl_pinjam)->format('d-m-Y') : '-' }}</td>
-                    <td>
-                        @if($p->tgl_kembali)
-                            <span class="{{ \Carbon\Carbon::parse($p->tgl_kembali)->isPast() && $p->status == 'dipinjam' ? 'text-danger' : '' }}">
-                                {{ \Carbon\Carbon::parse($p->tgl_kembali)->format('d-m-Y') }}
-                            </span>
+                    <td>{{ $p->tanggal_pinjam?->format('d-m-Y') ?? '-' }}</td>
+                    <td>{{ $p->jatuh_tempo?->format('d-m-Y') ?? '-' }}</td>
+                    
+                   <td class="text-center">
+                        @if($aktif->status == 'Diproses')
+                            <span class="badge bg-warning text-dark">Menunggu Konfirmasi</span>
+                        @elseif($aktif->status == 'Dipinjam')
+                            <span class="badge bg-primary">Sedang Dipinjam</span>
                         @else
-                            -
+                            <span class="badge bg-secondary">{{ $aktif->status }}</span>
                         @endif
                     </td>
                     <td class="text-center">
-                        @if($p->status == 'pending')
-                            <span class="badge bg-pending">Pending</span>
-                        @elseif($p->status == 'dipinjam')
-                            <span class="badge bg-aktif">Dipinjam</span>
-                        @elseif($p->status == 'terlambat')
-                            <span class="badge bg-nonaktif">Terlambat</span>
-                        @else
-                            <span class="badge bg-selesai">Kembali</span>
-                        @endif
-                    </td>
-                    <td class="text-center">
-                        @if($p->status == 'pending')
+                        @if($p->status == 'Diproses')
                             <form action="{{ route('petugas.peminjaman.konfirmasi', $p->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" name="aksi" value="setuju" class="btn-aksi-konfirmasi">Konfirmasi</button>
+                                <button type="submit" class="btn-aksi-konfirmasi">Konfirmasi</button>
                             </form>
                         @else
-                            <span class="text-muted">-</span>
+                            <span class="text-muted">Selesai</span>
                         @endif
                     </td>
                 </tr>

@@ -35,18 +35,16 @@ class DashboardController extends Controller
 
     public function petugas()
     {
-        // 1. Ambil data total untuk kotak biru (Statistik)
+
         $totalAnggota = Anggota::count();
         $totalBuku = Buku::count();
         
-        // Asumsi: tabel peminjaman punya kolom 'status' (dipinjam/kembali)
         $bukuDipinjam = Peminjaman::where('status', 'dipinjam')->count();
         
-        // Asumsi: tabel peminjaman punya kolom 'denda'
+
         $totalDenda = Peminjaman::sum('denda');
 
-        // 2. Ambil Aktivitas Terbaru (3 data terakhir)
-        // Kita gunakan Eager Loading 'with' supaya bisa panggil nama anggota
+
         $aktivitasTerbaru = Peminjaman::with('anggota')
                             ->latest()
                             ->take(3)
@@ -65,7 +63,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $anggota = \App\Models\Anggota::where('user_id', $user->id)->first();
+        $anggota = Anggota::where('user_id', $user->id)->first();
 
         if (!$anggota) {
             $peminjamanAktif = 0;

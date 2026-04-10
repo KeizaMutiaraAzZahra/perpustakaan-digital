@@ -7,16 +7,30 @@
     <h2 class="main-title">DASHBOARD</h2>
 
     <div class="welcome-banner">
-        <div class="user-profile-section">
-            <h3 class="user-greeting">Selamat Datang, {{ auth()->user()->name }}.</h3>
-            <div class="user-details-grid">
-                <div class="detail-item">ID: {{ auth()->user()->id }}</div>
-                <div class="detail-item">Peminjaman Aktif: 2</div>
-                <div class="detail-item">Status: <span class="status-badge">Aktif</span></div>
-                <div class="detail-item">Total Denda: 10.000</div>
+    <div class="user-profile-section">
+        <h3 class="user-greeting">Selamat Datang, {{ auth()->user()->name }}.</h3>
+        
+        <div class="user-details-grid">
+            <div class="detail-item">
+                <strong>ID:</strong> {{ auth()->user()->id }}
+            </div>
+            
+            <div class="detail-item">
+                <strong>Peminjaman Aktif:</strong> {{ $peminjamanAktif }}
+            </div>
+            
+            <div class="detail-item">
+                <strong>Status:</strong> 
+                <span class="status-badge">{{ ucfirst(auth()->user()->status) }}</span>
+            </div>
+            
+            <div class="detail-item">
+                <strong>Total Denda:</strong> 
+                Rp {{ number_format($totalDenda, 0, ',', '.') }}
             </div>
         </div>
     </div>
+</div>
 
     <div class="stats-container">
         <div class="stat-card">

@@ -114,9 +114,11 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
-       if ($buku->gambar && Storage::disk('public')->exists($buku->gambar)) {
+        // Pastikan pengecekan storage benar
+        if ($buku->gambar && Storage::disk('public')->exists($buku->gambar)) {
             Storage::disk('public')->delete($buku->gambar);
         }
+        
         $buku->delete();
 
         return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Dihapus!');
@@ -124,7 +126,9 @@ class BukuController extends Controller
 
     public function anggota()
     {
-        $buku = Buku::latest()->get(); 
+        // Gunakan paginate(8) bukan get()
+        $buku = \App\Models\Buku::latest()->paginate(8); 
+        
         return view('anggota.data-buku', compact('buku'));
     }
     

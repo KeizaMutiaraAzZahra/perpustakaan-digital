@@ -75,7 +75,6 @@
 
     <div class="action-container">
         <div class="total-summary">
-            <span>Total</span>
             <button class="btn-bayar">Bayar Denda</button>
         </div>
     </div>

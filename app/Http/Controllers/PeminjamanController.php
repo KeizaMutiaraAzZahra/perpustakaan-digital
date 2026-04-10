@@ -30,35 +30,31 @@ class PeminjamanController extends Controller
         return view('petugas.peminjaman', compact('peminjaman'));
     }
 
-    /**
-     * Fungsi Aksi: Konfirmasi Peminjaman (Tombol "Konfirmasi" di Tabel)
-     */
-    public function konfirmasi(Request $request, $id)
+
+    public function store(Request $request)
     {
-        $peminjaman = Peminjaman::findOrFail($id);
+        $anggotaId = auth()->user()->anggota->id;
 
-        if ($request->aksi == 'setuju') {
-            // Logika: Saat disetujui, tgl pinjam & jatuh tempo baru terisi otomatis
-            $peminjaman->update([
-                'status' => 'dipinjam',
-                'tanggal_pinjam' => Carbon::now(),
-                'jatuh_tempo' => Carbon::now()->addDays(7), // Otomatis 7 hari
-            ]);
+        $adaPeminjaman = Peminjaman::where('anggota_id', $anggotaId)
+            ->where('buku_id', $request->buku_id)
+            ->whereIn('status', ['Diproses', 'Dipinjam'])
+            ->exists();
 
-            // Stok buku berkurang
-            $peminjaman->buku()->decrement('stok');
-
-            return redirect()->back()->with('success', 'Peminjaman telah disetujui!');
+        if ($adaPeminjaman) {
+            return redirect()->back()->with('error', 'Kamu sudah mengajukan buku ini.');
         }
 
-        if ($request->aksi == 'tolak') {
-            $peminjaman->update(['status' => 'ditolak']);
-            return redirect()->back()->with('error', 'Peminjaman ditolak.');
-        }
+        Peminjaman::create([
+            'anggota_id' => $anggotaId,
+            'buku_id'    => $request->buku_id,
+            'status'     => 'Diproses', 
+            'tanggal_pinjam' => now(),
+            'jatuh_tempo'    => now()->addDays(7),
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil diajukan!');
     }
-
     /**
-     * Fungsi Aksi: Pengembalian (Jika mau ditambahkan tombol "Kembalikan")
      */
     public function pengembalian(Request $request)
     {
@@ -98,26 +94,44 @@ class PeminjamanController extends Controller
     public function anggota()
     {
         $userId = auth()->id();
-        $peminjaman = Peminjaman::with('buku')
+
+        // Ambil peminjaman yang sedang aktif (Menunggu konfirmasi atau sedang dibawa)
+        $peminjamanAktif = Peminjaman::with('buku')
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->whereIn('status', ['dipinjam', 'proses', 'ditolak'])
+            ->whereIn('status', ['Diproses', 'Dipinjam', 'Terlambat'])
             ->latest()
             ->get();
 
-        return view('anggota.data-peminjaman', compact('peminjaman'));
+        // Ambil yang sudah dikembalikan
+        $riwayatPeminjaman = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->where('status', 'Kembali')
+            ->latest()
+            ->get();
+
+        return view('anggota.data-peminjaman', compact('peminjamanAktif', 'riwayatPeminjaman'));
     }
 
-    public function pengembalianAnggota()
+    public function pengembalianAnggota(Request $request)
     {
         $userId = auth()->id();
+        $keyword = $request->keyword;
+
         $pengembalian = Peminjaman::with('buku')
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('status', 'kembali')
-            ->latest()
+            ->where('status', 'kembali') 
+            ->when($keyword, function($query) use ($keyword) {
+                $query->whereHas('buku', function($q) use ($keyword) {
+                    $q->where('judul', 'like', "%$keyword%");
+                });
+            })
+            ->latest('tanggal_kembali')
             ->get();
 
         return view('anggota.data-pengembalian', compact('pengembalian'));
@@ -135,6 +149,7 @@ class PeminjamanController extends Controller
 
         $totalTagihan = $daftarDenda->sum('denda');
 
-        return view('anggota.denda.index', compact('daftarDenda', 'totalTagihan'));
+        // GANTI 'anggota.denda' MENJADI 'anggota.data-denda'
+        return view('anggota.data-denda', compact('daftarDenda', 'totalTagihan'));
     }
 }

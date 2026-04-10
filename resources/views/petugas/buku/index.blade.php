@@ -33,7 +33,11 @@
         @forelse($buku as $b)
         <div class="book-card">
             <div class="book-cover">
-                <img src="{{ asset('storage/' . $b->cover) }}" alt="Cover">
+                @if($b->gambar)
+                    <img src="{{ asset('storage/' . $b->gambar) }}" alt="Cover">
+                @else
+                    <img src="{{ asset('images/no-cover.jpg') }}" alt="No Cover">
+                @endif
             </div>
             <div class="book-info">
                 <h3 class="book-title">{{ $b->judul }}</h3>

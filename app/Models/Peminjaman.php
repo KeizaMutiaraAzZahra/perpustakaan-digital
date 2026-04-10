@@ -29,4 +29,9 @@ class Peminjaman extends Model
     {
         return $this->belongsTo(Buku::class, 'buku_id');
     }
+
+    protected $casts = [
+        'tanggal_pinjam' => 'datetime',
+        'jatuh_tempo' => 'datetime',
+    ];
 }

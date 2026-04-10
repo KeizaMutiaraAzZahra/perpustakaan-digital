@@ -4,4 +4,57 @@
 
 @section('content')
 
+<div class="pengembalian-anggota">
+    <h2 class="main-title">Pengembalian</h2>
+
+    <div class="search-section">
+        <form action="{{ route('anggota.data-pengembalian') }}" method="GET" class="search-wrapper">
+            <div class="search-input-group">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" name="keyword" class="search-control" placeholder="Riwayat Pengembalian" value="{{ request('keyword') }}">
+                <button type="submit" class="btn-cari">Cari</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="content-card">
+        <div class="content-header">
+            <h4 class="content-subtitle">Pengembalian</h4>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Judul Buku</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Tanggal Kembali</th>
+                        <th>Denda</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($pengembalian as $item)
+                    <tr>
+                        <td>{{ $item->buku->judul }}</td>
+                        <td>{{ ($item->tanggal_pinjam)->format('d-m-Y') }}</td>
+                        <td>{{ ($item->tanggal_kembali)->format('d-m-Y') }}</td>
+                        <td>Rp. {{ number_format($item->denda, 0, ',', '.') }}</td>
+                        <td><span class="status-badge">Selesai</span></td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-4">Belum ada riwayat pengembalian.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="content-footer">
+            <p>Menampilkan {{ $pengembalian->count() }} dari pengembalian anda</p>
+        </div>
+    </div>
+</div>
+
 @endsection
