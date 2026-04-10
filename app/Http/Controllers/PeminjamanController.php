@@ -94,4 +94,47 @@ class PeminjamanController extends Controller
 
         return view('petugas.denda', compact('denda'));
     }
+
+    public function anggota()
+    {
+        $userId = auth()->id();
+        $peminjaman = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->whereIn('status', ['dipinjam', 'proses', 'ditolak'])
+            ->latest()
+            ->get();
+
+        return view('anggota.data-peminjaman', compact('peminjaman'));
+    }
+
+    public function pengembalianAnggota()
+    {
+        $userId = auth()->id();
+        $pengembalian = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->where('status', 'kembali')
+            ->latest()
+            ->get();
+
+        return view('anggota.data-pengembalian', compact('pengembalian'));
+    }
+
+    public function dendaAnggota()
+    {
+        $userId = auth()->id();
+        $daftarDenda = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->where('denda', '>', 0)
+            ->get();
+
+        $totalTagihan = $daftarDenda->sum('denda');
+
+        return view('anggota.denda.index', compact('daftarDenda', 'totalTagihan'));
+    }
 }

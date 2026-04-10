@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,15 +76,24 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users|max:255',
             'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:6|confirmed', // 'confirmed' butuh input password_confirmation di view
+            'password' => 'required|string|min:6', 
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'anggota', // Default registrasi biasanya untuk Anggota, bukan Kepala
+            'role' => 'anggota', 
+        ]);
+
+        Anggota::create([
+            'user_id'    => $user->id,
+            'nama'       => $request->name,
+            'kelas'      => '-', 
+            'jurusan'    => '-', 
+            'no_telepon' => '-',
+            'status'     => 'Aktif'
         ]);
 
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');

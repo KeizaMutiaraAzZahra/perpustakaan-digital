@@ -6,6 +6,7 @@ use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Peminjaman;
 use App\Models\Petugas;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -58,5 +59,32 @@ class DashboardController extends Controller
             'totalDenda', 
             'aktivitasTerbaru'
         ));
+    }
+
+    public function anggota() 
+    {
+        $user = Auth::user();
+
+        $anggota = \App\Models\Anggota::where('user_id', $user->id)->first();
+
+        if (!$anggota) {
+            $peminjamanAktif = 0;
+            $totalDenda = 0;
+            $sudahKembali = 0;
+        } else {
+
+            $peminjamanAktif = Peminjaman::where('anggota_id', $anggota->id)
+                                ->where('status', 'Dipinjam') 
+                                ->count();
+
+            $totalDenda = Peminjaman::where('anggota_id', $anggota->id)
+                                ->sum('denda');
+                                    
+            $sudahKembali = Peminjaman::where('anggota_id', $anggota->id)
+                                ->where('status', 'Kembali') 
+                                ->count();
+        }
+
+        return view('anggota.dashboard', compact('peminjamanAktif', 'totalDenda', 'sudahKembali'));
     }
 }

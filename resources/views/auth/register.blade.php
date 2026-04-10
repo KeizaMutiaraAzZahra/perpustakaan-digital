@@ -16,6 +16,16 @@
                 <h2 class="register-title">REGISTRASI</h2>
                 <div class="register-divider"></div>
 
+                @if ($errors->any())
+                    <div style="color: red; margin-bottom: 20px;">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
                 <form action="/register" method="POST">
                 @csrf
                     <div class="register-input-group">

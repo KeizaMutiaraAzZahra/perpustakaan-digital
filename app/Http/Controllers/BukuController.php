@@ -121,4 +121,24 @@ class BukuController extends Controller
 
         return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Dihapus!');
     }
+
+    public function anggota()
+    {
+        $buku = Buku::latest()->get(); 
+        return view('anggota.data-buku', compact('buku'));
+    }
+    
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $buku = Buku::where('judul', 'LIKE', "%$keyword%")
+                    ->orWhere('penulis', 'LIKE', "%$keyword%")
+                    ->orWhere('kategori', 'LIKE', "%$keyword%") // Tambahkan kategori biar makin keren
+                    ->latest()
+                    ->get();
+
+        return view('anggota.data-buku', compact('buku'));
+    }
+
 }

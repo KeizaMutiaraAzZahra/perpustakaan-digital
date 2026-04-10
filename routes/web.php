@@ -4,8 +4,10 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DendaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\PetugasController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,5 +70,17 @@ Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petug
 // --- HALAMAN ANGGOTA (Hanya role: anggota) ---
 Route::prefix('anggota')->name('anggota.')->middleware(['auth', 'can:role,"anggota"'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'anggota'])->name('dashboard');
-    Route::get('/katalog', [BukuController::class, 'index'])->name('katalog');
+    
+    Route::get('/data-buku', [BukuController::class, 'anggota'])->name('data-buku');
+    Route::get('/data-buku/search', [BukuController::class, 'search'])->name('buku.search');
+
+    // Untuk Peminjaman
+    Route::get('/peminjaman', [PeminjamanController::class, 'anggota'])->name('data-peminjaman');
+    Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+
+    // Untuk Pengembalian
+    Route::get('/pengembalian', [PeminjamanController::class, 'pengembalianAnggota'])->name('data-pengembalian');
+
+    // Untuk Denda
+    Route::get('/denda', [PeminjamanController::class, 'dendaAnggota'])->name('data-denda');
 });
