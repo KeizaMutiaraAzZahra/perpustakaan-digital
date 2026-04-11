@@ -21,7 +21,7 @@ class AnggotaController extends Controller
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
 
-        $anggota = $query->latest()->get();
+        $anggota = $query->latest()->paginate(10)->withQueryString();
 
         return view('petugas.anggota.index', compact('anggota'));
     }
@@ -37,7 +37,7 @@ class AnggotaController extends Controller
             $query->where('nama', 'like', '%' . $request->cari . '%');
         }
 
-        $anggota = $query->latest()->get();
+        $anggota = $query->latest()->paginate(10)->withQueryString();
 
         return view('kepala.data-anggota', compact('anggota'));
     }

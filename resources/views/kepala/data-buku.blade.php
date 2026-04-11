@@ -45,6 +45,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                <div class="mt-3">
+                    {{ $buku->links() }}
+                </div>
 </section>
 </main>
 

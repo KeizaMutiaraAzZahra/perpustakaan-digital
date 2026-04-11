@@ -79,7 +79,8 @@
         </div>
         @endforeach
     </div>
-
-    {{-- Baris pagination dihapus sementara karena bikin error links() --}}
+    <div class="mt-3">
+    {{ $buku->links() }}
+</div>
 </div>
 @endsection

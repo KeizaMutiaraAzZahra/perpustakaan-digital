@@ -17,9 +17,16 @@ class BukuController extends Controller
         return Buku::latest()->get();
     }
 
-    public function index()
+    public function index(Request $request) 
     {
-        $buku = $this->getDataBuku();
+        $query = Buku::query();
+        
+        if ($request->filled('cari')) {
+            $query->where('judul', 'like', '%' . $request->cari . '%')
+                ->orWhere('penulis', 'like', '%' . $request->cari . '%');
+        }
+
+        $buku = $query->latest()->paginate(10)->withQueryString();
         return view('petugas.buku.index', compact('buku'));
     }
 
@@ -32,7 +39,7 @@ class BukuController extends Controller
                 ->orWhere('penulis', 'like', '%' . $request->cari . '%');
         }
 
-        $buku = $query->latest()->get();
+        $buku = $query->latest()->paginate(10)->withQueryString();
 
         return view('kepala.data-buku', compact('buku'));
     }
@@ -55,7 +62,7 @@ class BukuController extends Controller
             'tahun_terbit' => 'required|digits:4',
             'stok'         => 'required|numeric',
             'kategori'     => 'required|in:Pelajaran,Novel,Komik',
-            'gambar'       => 'image|mimes:jpeg,png,jpg|max:2048'
+            'gambar' => 'image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -126,8 +133,7 @@ class BukuController extends Controller
 
     public function anggota()
     {
-        // Gunakan paginate(8) bukan get()
-        $buku = \App\Models\Buku::latest()->paginate(8); 
+        $buku = Buku::latest()->paginate(8); 
         
         return view('anggota.data-buku', compact('buku'));
     }
@@ -138,9 +144,10 @@ class BukuController extends Controller
 
         $buku = Buku::where('judul', 'LIKE', "%$keyword%")
                     ->orWhere('penulis', 'LIKE', "%$keyword%")
-                    ->orWhere('kategori', 'LIKE', "%$keyword%") // Tambahkan kategori biar makin keren
+                    ->orWhere('kategori', 'LIKE', "%$keyword%") 
                     ->latest()
-                    ->get();
+                    ->paginate(8) 
+                    ->withQueryString();
 
         return view('anggota.data-buku', compact('buku'));
     }

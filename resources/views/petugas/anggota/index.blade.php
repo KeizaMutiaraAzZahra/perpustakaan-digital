@@ -52,7 +52,10 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table>
+        </table>\
+        <div class="mt-3">
+            {{ $anggota->links() }}
+        </div>
     </div>
 </section>
 @endsection

@@ -4,10 +4,8 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DendaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\PetugasController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +63,7 @@ Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petug
     
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('pengembalian');
     Route::get('/denda', [PeminjamanController::class, 'denda'])->name('denda');
+    Route::patch('/denda/{id}/bayar', [PeminjamanController::class, 'bayarDenda'])->name('petugas.bayar-denda');
 });
 
 // --- HALAMAN ANGGOTA (Hanya role: anggota) ---
@@ -80,6 +79,12 @@ Route::prefix('anggota')->name('anggota.')->middleware(['auth', 'can:role,"anggo
 
     // Untuk Pengembalian
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalianAnggota'])->name('data-pengembalian');
+    Route::get('/pengembalian/{id}', [PeminjamanController::class, 'showForm'])
+    ->name('form-pengembalian');
+
+    // Route untuk memproses data 
+    Route::post('/pengembalian/proses/{id}', [PeminjamanController::class, 'prosesPengembalian'])
+    ->name('proses-pengembalian');
 
     // Untuk Denda
     Route::get('/denda', [PeminjamanController::class, 'dendaAnggota'])->name('data-denda');

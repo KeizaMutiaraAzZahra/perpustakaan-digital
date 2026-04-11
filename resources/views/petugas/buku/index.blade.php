@@ -20,7 +20,12 @@
 
     <div class="filter-bar">
         <div class="filter-left">
-            <select name="kategori"><option>Semua Kategori</option></select>
+            <select name="kategori">
+                <option>Semua Kategori</option>
+                <option>Novel</option>
+                <option>Komik</option>
+                <option>Pelajaran</option>
+            </select>
             <select name="status"><option>Semua Status</option></select>
             <select name="tahun"><option>Semua Tahun</option></select>
         </div>
@@ -64,6 +69,10 @@
         @empty
         <div class="alert alert-info">Data buku tidak ditemukan.</div>
         @endforelse
+    </div>
+    <div class="mt-3">
+        {{ $buku->appends(request()->query())->links() }}
+</div>
     </div>
 </div>
 @endsection

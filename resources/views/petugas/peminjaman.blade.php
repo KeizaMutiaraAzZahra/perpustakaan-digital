@@ -38,17 +38,11 @@
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td>{{ $p->anggota->nama }}</td>
                     <td>{{ $p->buku->judul }}</td>
-                    <td>{{ $p->tanggal_pinjam?->format('d-m-Y') ?? '-' }}</td>
-                    <td>{{ $p->jatuh_tempo?->format('d-m-Y') ?? '-' }}</td>
-                    
-                   <td class="text-center">
-                        @if($aktif->status == 'Diproses')
-                            <span class="badge bg-warning text-dark">Menunggu Konfirmasi</span>
-                        @elseif($aktif->status == 'Dipinjam')
-                            <span class="badge bg-primary">Sedang Dipinjam</span>
-                        @else
-                            <span class="badge bg-secondary">{{ $aktif->status }}</span>
-                        @endif
+                    {{-- Menggunakan format tanggal yang aman --}}
+                    <td>{{ $p->tanggal_pinjam ? \Carbon\Carbon::parse($p->tanggal_pinjam)->format('d-m-Y') : '-' }}</td>
+                    <td>{{ $p->jatuh_tempo ? \Carbon\Carbon::parse($p->jatuh_tempo)->format('d-m-Y') : '-' }}</td>
+                    <td class="text-center">
+                        {{ $p->status }}
                     </td>
                     <td class="text-center">
                         @if($p->status == 'Diproses')
@@ -58,7 +52,7 @@
                                 <button type="submit" class="btn-aksi-konfirmasi">Konfirmasi</button>
                             </form>
                         @else
-                            <span class="text-muted">Selesai</span>
+                            <span class="text-muted">Telah Dikonfirmasi</span>
                         @endif
                     </td>
                 </tr>
