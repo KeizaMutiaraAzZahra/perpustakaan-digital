@@ -1,4 +1,4 @@
-@extends('petugas.layouts.main')
+@extends('kepala.layouts.main')
 
 @section('title', 'Profil Saya')
 

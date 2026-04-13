@@ -51,7 +51,7 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petugas"'])->group(function () {

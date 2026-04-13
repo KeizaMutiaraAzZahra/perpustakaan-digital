@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use App\Models\Buku;
 use Carbon\Carbon;
 
 class PeminjamanController extends Controller
@@ -37,13 +38,22 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::findOrFail($id);
         
+        // --- TAMBAHKAN LOGIKA STOK DISINI ---
+        $buku = Buku::find($peminjaman->buku_id);
+        if ($buku) {
+            if ($buku->stok <= 0) {
+                return redirect()->back()->with('error', 'Gagal! Stok buku sudah habis.');
+            }
+            $buku->decrement('stok'); // Mengurangi stok 1
+        }
+
         $peminjaman->update([
             'status' => 'Dipinjam',
             'tanggal_pinjam' => now(),
             'jatuh_tempo' => now()->addDays(7), 
         ]);
 
-        return redirect()->back()->with('success', 'Peminjaman berhasil dikonfirmasi!');
+        return redirect()->back()->with('success', 'Peminjaman dikonfirmasi & stok berkurang!');
     }
 
     /**
@@ -262,6 +272,11 @@ class PeminjamanController extends Controller
             $hariTerlambat = $jatuhTempo->diffInDays($sekarang);
             $denda = $hariTerlambat * 5000;
             $status = 'Terlambat';
+        }
+
+        $buku = Buku::find($peminjaman->buku_id);
+        if ($buku) {
+            $buku->increment('stok'); // Menambah stok 1
         }
 
         $peminjaman->update([
