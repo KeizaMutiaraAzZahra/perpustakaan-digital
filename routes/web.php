@@ -44,7 +44,8 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
     Route::get('/laporan/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
     Route::get('/laporan/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
-
+    Route::get('/kepala/laporan/cetak', [LaporanController::class, 'cetak'])->name('kepala.laporan.cetak');
+    
     Route::resource('petugas', PetugasController::class);
     Route::patch('/petugas/{id}/status', [PetugasController::class, 'toggleStatus'])
     ->name('petugas.toggleStatus');
@@ -85,6 +86,8 @@ Route::prefix('anggota')->name('anggota.')->middleware(['auth', 'can:role,"anggo
     // Untuk Peminjaman
     Route::get('/peminjaman', [PeminjamanController::class, 'anggota'])->name('data-peminjaman');
     Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+
+    Route::get('/peminjaman/detail/{id}', [BukuController::class, 'showDetailPinjam'])->name('detail-pinjam');
 
     // Untuk Pengembalian
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalianAnggota'])->name('data-pengembalian');

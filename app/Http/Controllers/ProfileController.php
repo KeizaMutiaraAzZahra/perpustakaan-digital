@@ -10,7 +10,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // Mengarahkan ke view index sesuai role
+      
         $viewPath = $user->role . '.profile.index';
         
         if (view()->exists($viewPath)) {
@@ -22,7 +22,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        // Mengarahkan ke view edit sesuai role
+
         $viewPath = $user->role . '.profile.edit';
 
         if (view()->exists($viewPath)) {
@@ -45,9 +45,11 @@ class ProfileController extends Controller
         if ($user->role == 'petugas') {
             $rules['alamat'] = 'required';
             $rules['no_telp'] = 'required';
+            $rules['jenis_kelamin'] = 'required|in:L,P,Laki-laki,Perempuan';
         } elseif ($user->role == 'anggota') {
             $rules['kelas'] = 'required';
             $rules['jurusan'] = 'required';
+            $rules['no_telepon'] = 'required';
         }
 
         $request->validate($rules);
@@ -59,29 +61,22 @@ class ProfileController extends Controller
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
-        
-        if ($user->role == 'kepala') {
-           
-            \DB::table('petugas')->where('user_id', $user->id)->update([
-                'nama' => $request->name,
-                'updated_at' => now(),
-            ]);
-        } 
-        elseif ($user->role == 'petugas') {
+       
+        if ($user->role == 'petugas') {
             
             \DB::table('petugas')->where('user_id', $user->id)->update([
-                'nama'        => $request->name,
-                'alamat'      => $request->alamat,
-                'no_telepon'  => $request->no_telp,
-                'updated_at'  => now(),
+                'alamat'        => $request->alamat,
+                'no_telepon'    => $request->no_telp,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'updated_at'    => now(),
             ]);
         } 
         elseif ($user->role == 'anggota') {
-           
             \DB::table('anggotas')->where('user_id', $user->id)->update([
-                'nama'        => $request->name,
+                'nama'        => $request->name, 
                 'kelas'       => $request->kelas,
                 'jurusan'     => $request->jurusan,
+                'no_telepon'  => $request->no_telepon,
                 'updated_at'  => now(),
             ]);
         }

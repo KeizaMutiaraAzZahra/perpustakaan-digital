@@ -19,7 +19,7 @@
             <div class="dropdown-filters">
                 <select name="kategori" class="filter-select" onchange="this.form.submit()">
                     <option value="">Semua Kategori</option>
-                    <option value="Pelajaran" {{ request('kategori') == 'Pelajaran' ? 'selected' : '' }}>Buku Paket</option>
+                    <option value="Pelajaran" {{ request('kategori') == 'Pelajaran' ? 'selected' : '' }}>Pelajaran</option>
                     <option value="Novel" {{ request('kategori') == 'Novel' ? 'selected' : '' }}>Novel</option>
                     <option value="Komik" {{ request('kategori') == 'Komik' ? 'selected' : '' }}>Komik</option>
                 </select>
@@ -69,19 +69,14 @@
 
             <div class="action-wrapper" style="margin-top: 15px;">
                 @if($statusPinjam)
-                    {{-- Tombol mati (disabled) sebagai penanda status --}}
                     <button class="btn-pinjam" disabled style="background-color: {{ $statusPinjam->status == 'Diproses' ? '#ffc107' : '#198754' }}; color: {{ $statusPinjam->status == 'Diproses' ? '#000' : '#fff' }}; opacity: 1; border: none; width: 100%; cursor: default;">
                         <i class="bi {{ $statusPinjam->status == 'Diproses' ? 'bi-clock' : 'bi-check-circle' }}"></i>
                         {{ $statusPinjam->status == 'Diproses' ? 'Menunggu Konfirmasi' : 'Sedang Dipinjam' }}
                     </button>
                 @else
-                    <form action="{{ route('anggota.peminjaman.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="buku_id" value="{{ $item->id }}">
-                        <button type="submit" class="btn-pinjam" {{ $item->stok <= 0 ? 'disabled' : '' }} style="width: 100%;">
-                            {{ $item->stok <= 0 ? 'Stok Habis' : 'Pinjam' }}
-                        </button>
-                    </form>
+                    <a href="{{ route('anggota.detail-pinjam', $item->id) }}" class="btn-pinjam text-center d-block" style="width: 100%; text-decoration: none; line-height: 2.5;">
+                        {{ $item->stok <= 0 ? 'Stok Habis' : 'Pinjam' }}
+                    </a>
                 @endif
             </div>
         </div>

@@ -5,32 +5,28 @@
     </header>
 
     <nav class="nav-sidebar">
-        {{-- PASTIKAN SEMUA ROUTE DEPANNYA 'kepala.' --}}
-        <a href="{{ route('kepala.dashboard') }}" class="nav-item {{ request()->is('kepala/dashboard') ? 'active' : '' }}">
+        
+        <a href="{{ route('anggota.dashboard') }}" class="nav-item {{ request()->is('anggota/dashboard') ? 'active' : '' }}">
             <i class="bi bi-grid"></i> <span>Dashboard</span>
         </a>
 
-        <a href="{{ route('kepala.data-buku') }}" class="nav-item">
+        <a href="{{ route('anggota.data-buku') }}" class="nav-item">
             <i class="bi bi-book"></i> <span>Data Buku</span>
         </a>
 
-        <a href="{{ route('kepala.data-anggota') }}" class="nav-item">
-            <i class="bi bi-people"></i> <span>Data Anggota</span>
+        <a href="{{ route('anggota.data-peminjaman') }}" class="nav-item">
+            <i class="bi bi-box-arrow-in-up-right"></i> <span>Peminjaman</span>
         </a>
 
-        <a href="{{ route('kepala.laporan.peminjaman') }}" class="nav-item">
-            <i class="bi bi-box-arrow-in-up-right"></i> <span>Laporan Peminjaman</span>
+        <a href="{{ route('anggota.data-pengembalian') }}" class="nav-item">
+           <i class="bi bi-box-arrow-up-right"></i> <span>Pengembalian</span>
         </a>
 
-        <a href="{{ route('kepala.laporan.pengembalian') }}" class="nav-item">
-           <i class="bi bi-box-arrow-up-right"></i> <span>Laporan Pengembalian</span>
+        <a href="{{ route('anggota.data-denda') }}" class="nav-item">
+            <i class="bi bi-journal-x"></i> <span>Denda</span>
         </a>
 
-        <a href="{{ route('kepala.laporan.denda') }}" class="nav-item">
-            <i class="bi bi-journal-x"></i> <span>Laporan Denda</span>
-        </a>
-
-        <a href="{{ route('kepala.profile.index') }}" class="nav-item">
+        <a href="{{ route('anggota.profile.index') }}" class="nav-item">
             <i class="bi bi-person-circle"></i> <span>Profile</span>
         </a>
 

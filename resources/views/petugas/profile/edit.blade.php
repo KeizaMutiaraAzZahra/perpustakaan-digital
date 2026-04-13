@@ -22,9 +22,14 @@
             
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" class="form-control bg-light" value="{{ $user->username }}" readonly>
+                <input type="text" name="username" class="form-control" value="{{ old('username', $user->username) }}">
             </div>
 
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control bg-light" value="{{ $user->email }}" readonly>
+            </div>
+            
             <div class="form-group">
                 <label>Nama Lengkap</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>

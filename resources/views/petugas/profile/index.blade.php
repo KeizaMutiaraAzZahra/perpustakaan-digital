@@ -28,7 +28,11 @@
                 <p>{{ $user->username }}</p>
             </div>
 
-            {{-- Bagian Jenis Kelamin --}}
+              <div class="info-item">
+                <label>Email</label>
+                <p>{{ $user->email }}</p>
+            </div>
+            
             <div class="info-item mb-3">
                 <label class="text-muted d-block small uppercase fw-bold">Jenis Kelamin</label>
                 <p class="mb-0 text-dark">

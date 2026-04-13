@@ -32,6 +32,7 @@
                 <label>Email</label>
                 <p>{{ $user->email }}</p>
             </div>
+            
             <div class="info-item mb-3">
                 <label class="text-muted d-block small uppercase fw-bold">Kelas</label>
                 {{-- Ambil dari tabel anggota via relasi --}}

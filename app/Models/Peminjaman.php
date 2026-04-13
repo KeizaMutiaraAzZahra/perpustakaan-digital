@@ -19,7 +19,8 @@ class Peminjaman extends Model
         'jatuh_tempo',
         'tanggal_kembali',
         'status',
-        'denda'
+        'denda',
+        'jumlah',
     ];
 
     // Relasi ke Anggota

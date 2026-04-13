@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('jatuh_tempo');
             $table->enum('status', ['Diproses', 'Dipinjam', 'Kembali', 'Terlambat'])->default('Diproses');
             $table->integer('denda')->default(0);
+            $table->integer('jumlah')->default(1);
             $table->timestamps();
         });
     }

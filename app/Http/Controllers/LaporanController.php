@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Denda;
 use App\Models\Peminjaman;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
@@ -33,5 +35,24 @@ class LaporanController extends Controller
             ->get();
 
         return view('kepala.laporan.pengembalian', compact('pengembalian'));
+    }
+
+    public function cetak(Request $request)
+    {
+        $status = $request->status; // Dipinjam, Kembali, Denda
+        $query = Peminjaman::with(['anggota', 'buku']);
+
+        if ($status == 'Denda') {
+            $query->where('denda', '>', 0);
+        } else {
+            $query->where('status', $status);
+        }
+
+        $data = $query->latest()->get();
+
+        $pdf = Pdf::loadView('kepala.laporan-pdf', compact('data', 'status'));
+        
+        // Pakai stream biar Pak Kepala bisa lihat dulu sebelum diprint
+        return $pdf->stream('Laporan_' . $status . '.pdf');
     }
 }

@@ -32,12 +32,12 @@
             
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                <input type="email" name="email" class="form-control bg-light" value="{{ $user->email }}" readonly>
             </div>
 
             <div class="form-group">
                 <label>No Telepon</label>
-                <input type="text" name="no_telp" class="form-control" value="{{ old('no_telp', $user->anggota->no_telepon ?? '') }}">
+                <input type="text" name="no_telepon" class="form-control" value="{{ old('no_telepon', $user->anggota->no_telepon ?? '') }}">
             </div>
 
             <div class="form-group">

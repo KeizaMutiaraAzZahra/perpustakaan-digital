@@ -186,4 +186,12 @@ class BukuController extends Controller
         return view('anggota.data-buku', compact('buku'));
     }
 
+    public function showDetailPinjam($id)
+    {
+        // findOrFail sudah benar, tapi tambahkan fresh() jika dirasa datanya delay
+        $buku = Buku::findOrFail($id)->fresh(); 
+        
+        return view('anggota.detail-pinjam', compact('buku'));
+    }
+
 }

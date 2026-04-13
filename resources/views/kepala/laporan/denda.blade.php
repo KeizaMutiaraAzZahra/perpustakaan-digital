@@ -36,6 +36,7 @@
                 @endforelse
             </tbody>
         </table>
+        <a href="{{ route('kepala.laporan.cetak', ['status' => 'Denda']) }}" class="btn btn-danger">Cetak Denda</a>
     </div>
 </div>
 

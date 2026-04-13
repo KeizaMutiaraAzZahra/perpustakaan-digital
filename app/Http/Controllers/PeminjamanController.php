@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Peminjaman;
-use Illuminate\Http\Request;
+use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\Peminjaman;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
 {
@@ -37,14 +38,14 @@ class PeminjamanController extends Controller
     public function konfirmasi($id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
-        
-        // --- TAMBAHKAN LOGIKA STOK DISINI ---
         $buku = Buku::find($peminjaman->buku_id);
+
         if ($buku) {
-            if ($buku->stok <= 0) {
-                return redirect()->back()->with('error', 'Gagal! Stok buku sudah habis.');
+            if ($buku->stok < $peminjaman->jumlah) {
+                return redirect()->back()->with('error', 'Stok tidak cukup!');
             }
-            $buku->decrement('stok'); // Mengurangi stok 1
+            // DI SINI TEMPAT NGURANGIN STOK YANG BENER
+            $buku->decrement('stok', $peminjaman->jumlah); 
         }
 
         $peminjaman->update([
@@ -53,7 +54,7 @@ class PeminjamanController extends Controller
             'jatuh_tempo' => now()->addDays(7), 
         ]);
 
-        return redirect()->back()->with('success', 'Peminjaman dikonfirmasi & stok berkurang!');
+        return redirect()->back()->with('success', 'Konfirmasi berhasil!');
     }
 
     /**
@@ -112,54 +113,37 @@ class PeminjamanController extends Controller
     /**
      * Simpan Pengajuan Pinjam - ANGGOTA
      */
-    public function store(Request $request)
+   public function store(Request $request)
     {
-        $anggotaId = auth()->user()->anggota->id;
+        $request->validate([
+            'buku_id' => 'required|exists:bukus,id',
+            'jumlah' => 'required|integer|min:1',
+        ]);
 
-        $adaPeminjaman = Peminjaman::where('anggota_id', $anggotaId)
-            ->where('buku_id', $request->buku_id)
-            ->whereIn('status', ['Diproses', 'Dipinjam'])
-            ->exists();
+        $buku = Buku::findOrFail($request->buku_id);
+        $jumlahPinjam = $request->jumlah;
 
-        if ($adaPeminjaman) {
-            return redirect()->back()->with('error', 'Kamu sudah mengajukan buku ini.');
+        if ($buku->stok < $jumlahPinjam) {
+            return back()->with('error', 'Stok buku tidak mencukupi!');
+        }
+
+        $anggota = Anggota::where('user_id', auth()->id())->first();
+
+        if (!$anggota) {
+            return back()->with('error', 'Data anggota Anda tidak ditemukan.');
         }
 
         Peminjaman::create([
-            'anggota_id' => $anggotaId,
-            'buku_id'    => $request->buku_id,
-            'status'     => 'Diproses', 
+            'anggota_id'     => $anggota->id,
+            'buku_id'        => $buku->id,
+            'jumlah'         => $jumlahPinjam,
+            'status'         => 'Diproses',
             'tanggal_pinjam' => now(),
-            'jatuh_tempo'    => now()->addDays(7),
+            'jatuh_tempo'    => now()->addDays(7), 
         ]);
 
-        return redirect()->back()->with('success', 'Berhasil diajukan!');
-    }
 
-    /**
-     * Data Peminjaman Aktif & Riwayat - ANGGOTA
-     */
-    public function anggota()
-    {
-        $userId = auth()->id();
-
-        $peminjamanAktif = Peminjaman::with('buku')
-            ->whereHas('anggota', function($q) use ($userId) {
-                $q->where('user_id', $userId);
-            })
-            ->whereIn('status', ['Diproses', 'Dipinjam', 'Terlambat'])
-            ->latest()
-            ->paginate(5, ['*'], 'p_aktif'); // Paginate dengan nama unik
-
-        $riwayatPeminjaman = Peminjaman::with('buku')
-            ->whereHas('anggota', function($q) use ($userId) {
-                $q->where('user_id', $userId);
-            })
-            ->where('status', 'Kembali')
-            ->latest()
-            ->paginate(5, ['*'], 'p_riwayat');
-
-        return view('anggota.data-peminjaman', compact('peminjamanAktif', 'riwayatPeminjaman'));
+        return redirect()->route('anggota.data-peminjaman')->with('success', 'Permintaan pinjam berhasil dikirim!');
     }
 
     /**
@@ -276,16 +260,39 @@ class PeminjamanController extends Controller
 
         $buku = Buku::find($peminjaman->buku_id);
         if ($buku) {
-            $buku->increment('stok'); // Menambah stok 1
+            $buku->increment('stok', $peminjaman->jumlah); 
         }
 
         $peminjaman->update([
             'status' => $status,
-            'tanggal_kembali' => now(), // Mencatat waktu asli pengembalian
+            'tanggal_kembali' => now(), 
             'denda' => $denda,
         ]);
 
         return redirect()->route('anggota.data-pengembalian')
                          ->with('success', 'Buku berhasil dikembalikan dengan status: ' . $status);
+    }
+
+    public function anggota()
+    {
+        $userId = auth()->id();
+
+        $peminjamanAktif = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->whereIn('status', ['Diproses', 'Dipinjam', 'Terlambat'])
+            ->latest()
+            ->paginate(5, ['*'], 'p_aktif');
+
+        $riwayatPeminjaman = Peminjaman::with('buku')
+            ->whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->where('status', 'Kembali')
+            ->latest()
+            ->paginate(5, ['*'], 'p_riwayat');
+
+        return view('anggota.data-peminjaman', compact('peminjamanAktif', 'riwayatPeminjaman'));
     }
 }
