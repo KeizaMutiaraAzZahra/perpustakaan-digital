@@ -63,7 +63,7 @@ class PeminjamanController extends Controller
     public function pengembalian(Request $request)
     {
         $query = Peminjaman::with(['anggota', 'buku'])
-            ->whereIn('status', ['Menunggu Konfirmasi', 'Kembali', 'Terlambat']);
+            ->whereIn('status', ['Dipinjam','Menunggu Konfirmasi', 'Kembali', 'Terlambat']);
        
         if ($request->filled('cari')) {
             $cari = $request->cari;
@@ -88,9 +88,8 @@ class PeminjamanController extends Controller
      */
     public function denda(Request $request)
     {
-        // Hapus filter "where denda > 0" agar yang lunas (denda = 0) tetap dipanggil
         $query = Peminjaman::with(['anggota', 'buku'])
-                    ->whereNotNull('status_denda'); // Pastikan hanya data yang memang ada record dendanya
+            ->where('status_denda', '!=', 'lunas');;
 
         if ($request->filled('cari')) {
             $cari = $request->cari;
@@ -176,8 +175,7 @@ class PeminjamanController extends Controller
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('status', 'Terlambat')
-            ->where('denda', '>', 0);
+            ->where('denda', '>', 0); 
 
         // SEARCH
         if ($request->filled('cari')) {
@@ -187,11 +185,12 @@ class PeminjamanController extends Controller
             });
         }
 
-        $daftarDenda = $query->latest()->paginate(10)->withQueryString();
+        $allDenda = $query->latest()->get(); 
 
-        // HITUNG ULANG (BIAR AKURAT)
-        $daftarDenda->getCollection()->transform(function ($item) {
+        // 2. HITUNG ULANG & TRANSFORM
+        $allDenda->transform(function ($item) {
             $jatuhTempo = strtotime($item->jatuh_tempo);
+            // Jika status sudah Kembali/Lunas, pakai tanggal_kembali. Jika belum, pakai waktu sekarang.
             $kembali = $item->tanggal_kembali 
                 ? strtotime($item->tanggal_kembali) 
                 : time();
@@ -200,24 +199,26 @@ class PeminjamanController extends Controller
             $hari = $selisih > 0 ? floor($selisih) : 0;
 
             $dendaPerHari = 5000;
-            $totalDenda = $hari * $dendaPerHari;
-
             $item->hari_terlambat = $hari;
-            $item->denda_per_hari = $dendaPerHari;
-            $item->total_denda = $totalDenda;
+            $item->total_denda = $hari * $dendaPerHari;
 
             return $item;
         });
 
-        $totalTagihan = $daftarDenda->getCollection()->sum('total_denda');
+        $tagihanAktif = $allDenda->whereIn('status', ['Terlambat', 'Belum Bayar']);
+        
+        // Riwayat: Yang statusnya sudah 'Kembali', 'Lunas', atau 'Selesai'
+        $riwayatDenda = $allDenda->whereIn('status', ['Kembali', 'Lunas', 'Selesai']);
 
-        return view('anggota.data-denda', compact('daftarDenda', 'totalTagihan'));
+        $totalTagihan = $tagihanAktif->sum('total_denda');
+
+        return view('anggota.data-denda', compact('tagihanAktif', 'riwayatDenda', 'totalTagihan'));
     }
     /**
      * Proses Pengembalian - ANGGOTA
      */
 
-    public function pengembalianAnggota(Request $request)
+   public function pengembalianAnggota(Request $request)
     {
         $userId = auth()->id();
         $keyword = $request->keyword;
@@ -226,21 +227,21 @@ class PeminjamanController extends Controller
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            // UBAH DISINI: Tambahkan status 'Terlambat' agar muncul di riwayat
-            ->whereIn('status', ['Kembali', 'Terlambat']) 
+            // TAMBAHKAN 'Menunggu Konfirmasi' agar data yang baru diklik muncul di sini
+            ->whereIn('status', ['Kembali', 'Terlambat', 'Menunggu Konfirmasi']) 
             ->when($keyword, function($query) use ($keyword) {
                 $query->whereHas('buku', function($q) use ($keyword) {
                     $q->where('judul', 'like', "%$keyword%");
                 });
             })
-            ->latest('tanggal_kembali')
+            ->latest('updated_at') // Pakai updated_at supaya yang baru dikonfirmasi naik ke atas
             ->paginate(10)
             ->withQueryString();
 
         return view('anggota.data-pengembalian', compact('pengembalian'));
     }
 
-   public function prosesPengembalian(Request $request, $id)
+    public function prosesPengembalian(Request $request, $id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
 
@@ -280,12 +281,10 @@ class PeminjamanController extends Controller
             $buku->increment('stok', $peminjaman->jumlah);
         }
 
-        $peminjaman->update([
-            'status' => $status,
-            'denda' => $denda,
-            'tanggal_kembali' => now(),
-            'status_denda' => $status_denda, 
-        ]);
+        $peminjaman->status = $status;
+        $peminjaman->denda = $denda;
+        $peminjaman->tanggal_kembali = now();
+        $peminjaman->save();
 
         return back()->with('success', 'Pengembalian berhasil dikonfirmasi!');
     }

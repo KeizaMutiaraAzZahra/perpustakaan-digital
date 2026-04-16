@@ -119,7 +119,6 @@
         }
     }
 </style>
-
 <div class="detail-pinjam">
     <div class="container-fluid">
         <div class="main-card">

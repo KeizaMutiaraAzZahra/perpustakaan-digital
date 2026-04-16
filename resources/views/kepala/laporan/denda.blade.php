@@ -19,33 +19,44 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($denda as $index => $item)
-                    <tr>
-                        <td class="text-center">
-                            {{ ($denda->currentPage() - 1) * $denda->perPage() + $loop->iteration }}
-                        </td>
-                        {{-- Samakan persis dengan laporan pengembalian --}}
-                        <td>{{ $item->anggota->nama ?? '-' }}</td>
-                        <td>{{ $item->buku->judul ?? '-' }}</td>
-                        <td class="text-center">
-                            {{ $item->tanggal_kembali ? \Carbon\Carbon::parse($item->tanggal_kembali)->format('d/m/Y') : '-' }}
-                        </td>
-                        <td class="text-center fw-bold text-danger">
-                            Rp {{ number_format($item->denda, 0, ',', '.') }}
-                        </td>
-                        <td class="text-center">
-                            {{-- Logika status yang lebih aman --}}
-                            @if($item->status_denda == 'lunas')
-                                <span class="badge bg-success text-white px-3 py-2 rounded-pill">Lunas</span>
-                            @else
-                                <span class="badge bg-danger text-white px-3 py-2 rounded-pill">Belum Bayar</span>
-                            @endif
-                        </td>
-                    </tr>
+                @forelse($denda as $item)
+                <tr>
+                    <td class="text-center">
+                        {{ ($denda->currentPage() - 1) * $denda->perPage() + $loop->iteration }}
+                    </td>
+
+                    <td>{{ $item->anggota->nama ?? '-' }}</td>
+
+                    <td>{{ $item->buku->judul ?? '-' }}</td>
+
+                    <td class="text-center">
+                        {{ $item->tanggal_kembali 
+                            ? \Carbon\Carbon::parse($item->tanggal_kembali)->format('d/m/Y') 
+                            : '-' }}
+                    </td>
+
+                    <td class="text-center fw-bold text-danger">
+                        Rp {{ number_format($item->denda, 0, ',', '.') }}
+                    </td>
+
+                    <td class="text-center">
+                        @if($item->denda == 0)
+                            <span style="background-color:#198754;color:white;padding:5px 15px;border-radius:50px;font-size:12px;font-weight:bold;">
+                                Lunas
+                            </span>
+                        @else
+                            <span style="background-color:#dc3545;color:white;padding:5px 15px;border-radius:50px;font-size:12px;font-weight:bold;">
+                                Belum Bayar
+                            </span>
+                        @endif
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="6" class="text-center py-5 text-muted">Belum ada data denda (Semua tepat waktu).</td>
-                    </tr>
+                <tr>
+                    <td colspan="6" class="text-center py-5 text-muted">
+                        Belum ada data denda (Semua tepat waktu).
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

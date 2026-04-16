@@ -282,143 +282,173 @@
 }
 
 
-/* DATA PETUGAS */
-/* WRAPPER */
-.data-petugas .frame-wrapper {
-  width: 1010px;
-  padding: 20px;
-  background: #fff;
+/* Container Utama */
+.data-petugas {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin: 20px;
 }
 
-.data-petugas .frame-2 {
-  background: #f9f9fb;
-  border-radius: 16px;
-  padding: 20px;
+.data-petugas .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #333;
 }
 
-
-/* TOP BAR */
+/* TOP BAR (Search & Button) */
 .data-petugas .top-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-/* SEARCH */
 .data-petugas .search-box {
-  display: flex;
-  align-items: center;
-  border: 1px solid #000;
-  border-radius: 5px;
-  padding: 5px 10px;
-  width: 245px;
-  background: #fff;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 8px 15px;
+    width: 300px;
+    background: #fff;
+}
+
+.data-petugas .search-box img {
+    width: 18px;
+    margin-right: 10px;
 }
 
 .data-petugas .search-box input {
-  border: none;
-  outline: none;
-  margin-left: 8px;
-  width: 100%;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
 }
 
-/* BUTTON */
 .data-petugas .btn-search {
-  background: #4f6bed;
-  color: white;
-  border: none;
-  padding: 9px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.data-petugas .btn-search:hover {
+    background-color: #2e59d9;
 }
 
 .data-petugas .btn-add {
-  margin-left: auto;
-  background: #4f6bed;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
+    margin-left: auto; /* Dorong ke kanan */
+    background-color: #4e73df;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    transition: 0.3s;
 }
 
-/* Table General */
-.data-petugas .data-table th,
-.data-petugas .data-table td {
-  border: 1px solid #000;
-  padding: 10px;
-  vertical-align: middle; /* Supaya teks di tengah secara atas-bawah */
+.data-petugas .btn-add:hover {
+    background-color: #2e59d9;
 }
 
-/* Class Otomatis Tengah */
-.data-petugas .text-center {
-  text-align: center !important;
+/* TABEL */
+.data-petugas .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-/* Pastikan elemen di dalamnya juga tidak lari ke kiri */
-.data-petugas .text-center .status, 
-.data-petugas .text-center .btn-detail {
-  display: inline-flex;
-  justify-content: center;
-  margin: 0 auto;
+.data-petugas .data-table thead th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    text-align: left;
 }
-/* STATUS */
+
+.data-petugas .data-table tbody td {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    color: #555;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* Status Badge */
 .data-petugas .status {
-  text-align: center;
-  padding: 5px;
-  border-radius: 5px;
-  color: white;
+    display: inline-block;
+    width: 80px; /* Atur lebar tetap agar seragam */
+    padding: 6px 0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: lowercase;
+    line-height: 1;
 }
 
-/* Styling Tombol Aksi Icon */
+.data-petugas .status.aktif {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.data-petugas .status.nonaktif {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+/* Aksi Buttons */
 .data-petugas .aksi-buttons {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Jarak antar icon */
-    align-items: center;
+    gap: 10px;
+}
+
+.data-petugas .btn-icon-edit,
+.data-petugas .btn-icon-delete {
+    background: transparent;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .data-petugas .btn-icon-edit {
-    color: #303f9f; /* Warna biru */
-    font-size: 1.2rem;
-    transition: 0.3s;
+    color: #4e73df;
+    border: 1px solid #4e73df;
 }
 
 .data-petugas .btn-icon-edit:hover {
-    color: #1a237e;
-    transform: scale(1.1);
+    background: #4e73df;
+    color: white;
 }
 
 .data-petugas .btn-icon-delete {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #dc3545; /* Warna merah */
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
+    color: #dc3545;
+    border: 1px solid #dc3545;
 }
 
 .data-petugas .btn-icon-delete:hover {
-    color: #a71d2a;
-    transform: scale(1.1);
+    background: #dc3545;
+    color: white;
 }
 
-.aktif {
-  background: green;
-  width: 90px;
-  font-family: "Protest Strike", sans-serif;
-  font-size: 14px;
-}
-
-.nonaktif {
-  background: red;
-  width: 90px;
-  font-family: "Protest Strike", sans-serif;
-  font-size: 14px;
-}
+/* Helper Class */
+.data-petugas .text-center { text-align: center !important; }
 
 /* BUTTON DETAIL */
 .btn-detail {
@@ -1008,96 +1038,112 @@
 }
 
 
-/* DATA ANGGOTA KEPALA PERPUSTAKAAN */
-/* Container Utama */
-.data-anggota-kepala {
-    padding: 10px;
+/* RESET JARAK KHUSUS HALAMAN INI */
+.data-anggota-kepala * {
+    box-sizing: border-box;
 }
 
-/* Search Section */
+.data-anggota-kepala .header-section {
+    margin-bottom: 15px !important;
+}
+
+.data-anggota-kepala .title {
+    font-size: 26px !important;
+    margin: 0 !important;
+    font-weight: 700;
+}
+
+.data-anggota-kepala .line {
+    margin: 10px 0 !important;
+    border: 0;
+    border-top: 1px solid #ccc !important;
+    opacity: 1;
+}
+
+/* SEARCH BAR - Pastikan nempel ke atas */
 .data-anggota-kepala .top-bar {
-    margin-bottom: 25px;
+    margin: 0 0 20px 0 !important; /* Hapus margin top */
 }
 
 .data-anggota-kepala .search-wrapper {
     display: flex;
     gap: 10px;
-    align-items: center;
 }
 
 .data-anggota-kepala .search-box {
     display: flex;
     align-items: center;
-    border: 1px solid #000;
+    border: 1px solid #333 !important;
     border-radius: 4px;
-    padding: 6px 12px;
+    padding: 5px 12px;
     width: 320px;
     background: #fff;
-    margin-top: 25px;
 }
 
 .data-anggota-kepala .search-box input {
-    border: none;
-    outline: none;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 5px !important;
+    margin-left: 5px !important;
     width: 100%;
-    margin-left: 8px;
 }
 
 .data-anggota-kepala .btn-cari {
-    background-color: #4f6bed;
-    color: white;
-    border: none;
-    padding: 8px 25px;
-    border-radius: 4px;
-    cursor: pointer;
+    background-color: #5d78ff !important;
+    color: white !important;
+    padding: 8px 25px !important;
+    border-radius: 5px !important;
+    border: none !important;
     font-weight: 600;
-    margin-top: 25px;
 }
 
-/* Table Section */
+/* TABLE */
 .data-anggota-kepala .data-table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-}
-
-.data-anggota-kepala .data-table th, 
-.data-anggota-kepala .data-table td {
-    border: 1px solid #000;
-    padding: 12px;
-    font-size: 14px;
-    vertical-align: middle;
+    border-collapse: collapse !important;
+    border: 1px solid #000 !important;
 }
 
 .data-anggota-kepala .data-table th {
-    background-color: #d9d9d9;
+    background-color: #e9ecef !important;
+    border: 1px solid #000 !important;
+    padding: 12px !important;
+    font-weight: bold;
+    text-align: left;
 }
 
-/* Status & Utility */
+.data-anggota-kepala .data-table td {
+    border: 1px solid #000 !important;
+    padding: 12px !important;
+    vertical-align: middle;
+}
+
+/* BADGE STATUS - Perbaikan Kotak Hijau */
+.data-anggota-kepala .badge-status-box {
+    display: inline-block !important;
+    width: 85px !important;
+    padding: 6px 0 !important;
+    border-radius: 4px !important;
+    color: white !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+}
+
+.data-anggota-kepala .badge-status-box.aktif {
+    background-color: #28a745 !important;
+}
+
+.data-anggota-kepala .badge-status-box.nonaktif {
+    background-color: #dc3545 !important;
+}
+
 .data-anggota-kepala .text-center {
     text-align: center !important;
 }
-
-.data-anggota-kepala .status-badge {
-    display: inline-block;
-    padding: 6px 0;
-    width: 100px;
-    border-radius: 6px;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    text-align: center;
-}
-
-/* Warna Status */
-.data-anggota-kepala .status-badge.aktif {
-    background-color: #008000; /* Hijau */
-}
-
-.data-anggota-kepala .status-badge.nonaktif {
-    background-color: #dc2626; /* Merah */
-}
-
 /* CSS Laporan Denda Kepala Perpustakaan */
 /* Container Utama */
 .laporan-denda-kepala {
@@ -2246,6 +2292,57 @@
     color: white;
 }
 
+/* Wrapper */
+.data-buku-anggota .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    list-style: none;
+    padding: 0;
+}
+
+/* Item */
+.data-buku-anggota .pagination li {
+    margin: 0 4px;
+}
+
+/* Link */
+.data-buku-anggota .pagination li a,
+.data-buku-anggota .pagination li span {
+    display: block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #f3f4f6;
+    color: #374151;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Hover */
+.data-buku-anggota .pagination li a:hover {
+    background: #4f46e5;
+    color: #fff;
+}
+
+/* Active */
+.data-buku-anggota .pagination li.active span {
+    background: #4f46e5;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Disabled */
+.data-buku-anggota .pagination li.disabled span {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.data-buku-anggota svg {
+    width: 16px !important;
+    height: 16px !important;
+}
 /* CSS Data Denda Anggota */
 
 .data-denda-anggota {

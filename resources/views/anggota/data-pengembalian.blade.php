@@ -37,17 +37,20 @@
                     @forelse($pengembalian as $item)
                     <tr>
                         <td>{{ $item->buku->judul }}</td>
-                        <td>{{ ($item->tanggal_pinjam)->format('d-m-Y') }}</td>
-                        <td>{{ ($item->tanggal_kembali)->format('d-m-Y') }}</td>
+                        {{-- Gunakan optional atau ternary agar tidak error jika field null --}}
+                        <td>{{ $item->tanggal_pinjam ? \Carbon\Carbon::parse($item->tanggal_pinjam)->format('d-m-Y') : '-' }}</td>
+                        <td>{{ $item->tanggal_kembali ? \Carbon\Carbon::parse($item->tanggal_kembali)->format('d-m-Y') : 'Diproses...' }}</td>
                         <td>Rp {{ number_format($item->denda, 0, ',', '.') }}</td>
                         <td class="text-center">
-                            @if($item->status == 'Terlambat')
-                                {{-- Badge Terlambat tetap di atas --}}
+                            @if($item->status == 'Menunggu Konfirmasi')
+                                {{-- Status saat anggota sudah klik kembalikan tapi petugas belum konfirmasi --}}
+                                <span class="status-badge" style="background-color: #f1c40f; color: #000; padding: 5px 10px; border-radius: 5px; display: inline-block; font-size: 12px;">
+                                    <i class="bi bi-clock"></i> Menunggu Petugas
+                                </span>
+                            @elseif($item->status == 'Terlambat')
                                 <span class="status-badge" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; display: inline-block;">
                                     Terlambat
                                 </span>
-
-                                {{-- Ini kuncinya: dikasih display block biar dia turun ke bawah badge --}}
                                 <a href="{{ route('anggota.data-denda') }}" 
                                 style="display: block; margin-top: 5px; color: #e74c3c; font-size: 11px; text-decoration: underline; font-weight: bold;">
                                     Bayar Denda <i class="bi bi-arrow-right"></i>

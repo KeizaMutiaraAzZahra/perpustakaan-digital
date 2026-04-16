@@ -3,8 +3,7 @@
 @section('title', 'Data Anggota')
 
 @section('content')
-
- <div class="data-anggota-kepala">
+<div class="data-anggota-kepala">
     <div class="header-section">
         <h2 class="title">Data Anggota</h2>
         <hr class="line">
@@ -33,26 +32,20 @@
                     <th class="text-center">Status</th>
                 </tr>
             </thead>
-           <tbody>
+            <tbody>
                 @foreach ($anggota as $index => $a)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    
-                    {{-- Pakai nama, bukan name --}}
-                    <td>{{ $a->nama }}</td>
-                    
+                    <td>{{ $a->nama }}</td>                  
                     <td>{{ $a->kelas }}</td>
                     <td>{{ $a->jurusan }}</td>
                     <td>{{ $a->no_telepon }}</td>
                     <td>{{ $a->created_at->format('d-m-Y') }}</td>
-                    
                     <td class="text-center">
-                        {{-- Ini cara paling gampang, langsung keluarin isinya --}}
-                        @if($a->status == 'Aktif' || $a->status == 'aktif')
-                            <span style="color: green; font-weight: bold;">Aktif</span>
-                        @else
-                            <span style="color: red; font-weight: bold;">Nonaktif</span>
-                        @endif
+                        {{-- Gunakan class tunggal 'badge-status-box' supaya gampang diatur --}}
+                        <span class="badge-status-box {{ strtolower($a->status) }}">
+                            {{ ucfirst($a->status) }}
+                        </span>
                     </td>
                 </tr>
                 @endforeach

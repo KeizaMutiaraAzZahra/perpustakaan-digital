@@ -88,8 +88,10 @@
         </div>
         @endforeach
     </div>
-    <div class="mt-3">
-    {{ $buku->links() }}
-</div>
+    <div class="data-buku-anggota">
+        <div class="mt-3">
+           {{ $buku->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
 </div>
 @endsection

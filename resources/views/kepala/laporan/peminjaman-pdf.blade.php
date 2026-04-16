@@ -42,21 +42,19 @@
             <th>Nama Anggota</th>
             <th>Judul Buku</th>
             <th>Tanggal Pinjam</th>
-            <th>Denda</th>
         </tr>
     </thead>
-    <tbody>
+    <<tbody>
         @forelse($data as $item)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $item->anggota->nama }}</td>
             <td>{{ $item->buku->judul }}</td>
             <td>{{ $item->tanggal_pinjam }}</td>
-            <td>{{ $item->denda ?? 0 }}</td>
         </tr>
         @empty
         <tr>
-            <td colspan="5">Data tidak ada</td>
+            <td colspan="4">Data tidak ada</td>
         </tr>
         @endforelse
     </tbody>

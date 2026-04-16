@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="button-group">
-                        <button type="button" class="btn batal">Batal</button>
+                        <a href="{{ route('kepala.petugas.index') }}" class="btn batal">Batal</a>
                         <button type="submit" class="btn simpan">Simpan</button>
                     </div>
 

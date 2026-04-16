@@ -17,11 +17,13 @@ class LaporanController extends Controller
      
     public function denda()
     {
-        // Ambil semua data yang denda-nya bukan 0
         $denda = Peminjaman::with(['anggota', 'buku'])
-                    ->where('denda', '>', 0) 
-                    ->latest()
-                    ->paginate(10);
+            ->where(function($query) {
+                $query->where('denda', '>', 0)      // yang masih ada denda
+                    ->orWhere('status', 'Selesai'); // yang sudah lunas
+            })
+            ->latest()
+            ->paginate(10);
 
         return view('kepala.laporan.denda', compact('denda'));
     }
@@ -50,7 +52,6 @@ class LaporanController extends Controller
             $query->where('status', 'Kembali');
             $view = 'kepala.laporan.pengembalian-pdf';
         } else {
-            $query->where('status', 'Dipinjam');
             $view = 'kepala.laporan.peminjaman-pdf';
         }
 
