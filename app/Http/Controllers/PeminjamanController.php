@@ -273,7 +273,7 @@ class PeminjamanController extends Controller
             $hariTerlambat = $jatuhTempo->diffInDays($sekarang);
             $denda = $hariTerlambat * 5000;
             $status = 'Terlambat';
-            $status_denda = 'belum lunas'; // Ini yang bikin data muncul di laporan denda!
+            $status_denda = 'belum lunas'; 
         }
 
         $buku = \App\Models\Buku::find($peminjaman->buku_id);

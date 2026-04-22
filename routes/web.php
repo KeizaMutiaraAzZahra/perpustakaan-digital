@@ -42,6 +42,7 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
     
     // Laporan
     Route::get('/laporan/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
+    Route::get('/laporan/search', [LaporanController::class, 'search'])->name('peminjaman.search');
     Route::get('/laporan/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');

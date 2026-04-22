@@ -20,9 +20,8 @@
             text-align: center;
         }
 
-        .ttd {
-            margin-top: 50px;
-            text-align: right;
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -50,15 +49,19 @@
         @forelse($data as $item)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->anggota->nama }}</td>
-            <td>{{ $item->buku->judul }}</td>
-            <td>{{ $item->tanggal_kembali ?? '-' }}</td>
+            <td>{{ $item->anggota->nama ?? '-' }}</td>
+            <td>{{ $item->buku->judul ?? '-' }}</td>
+            <td>
+                {{ $item->tanggal_kembali 
+                    ? \Carbon\Carbon::parse($item->tanggal_kembali)->format('d/m/Y') 
+                    : '-' }}
+            </td>
             <td>Rp {{ number_format($item->denda ?? 0, 0, ',', '.') }}</td>
             <td>
                 @if(($item->denda ?? 0) > 0)
                     Belum Bayar
                 @else
-                    Tidak Ada Denda
+                    Lunas / Tidak Ada Denda
                 @endif
             </td>
         </tr>
@@ -70,13 +73,26 @@
     </tbody>
 </table>
 
-<div class="ttd">
-    <p>Banjar, {{ date('d F Y') }}</p>
-    <p>Kepala Perpustakaan,</p>
+<div style="margin-top: 60px;">
+    <table width="100%" style="border: none;">
+        <tr>
+            <!-- KIRI -->
+            <td style="text-align: left; border: none;">
+                Mengetahui,<br>
+                Kepala Perpustakaan
+                <br><br><br><br>
+                <b>( Nama Kepala Perpustakaan )</b>
+            </td>
 
-    <br><br><br>
-
-    <p><b>( Kepala Perpustakaan )</b></p>
+            <!-- KANAN -->
+            <td style="text-align: right; border: none;">
+                Banjar, {{ date('d F Y') }}<br>
+                Petugas Perpustakaan
+                <br><br><br><br>
+                <b>( Nama Petugas )</b>
+            </td>
+        </tr>
+    </table>
 </div>
 
 </body>

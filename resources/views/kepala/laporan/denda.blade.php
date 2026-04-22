@@ -6,6 +6,27 @@
 <section class="laporan-pengembalian">
     <h2 class="page-title">Laporan Denda</h2>
 
+    <div class="top-bar">
+        <form action="{{ route('kepala.laporan.denda') }}" method="GET" class="search-wrapper">
+            
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" name="search" placeholder="Cari" value="{{ request('search') }}">
+            </div>
+
+            <button type="submit" class="btn-cari">Cari</button>
+
+            <div class="search-box">
+                <input type="date" name="start_date" value="{{ request('start_date') }}">
+                <input type="date" name="end_date" value="{{ request('end_date') }}">
+            </div>
+
+            <button type="submit" class="btn-cari">Filter</button>
+
+            <input type="hidden" name="status" value="Denda">
+        </form>
+    </div>
+
     <div class="table-card">
         <table class="main-table">
             <thead>
@@ -61,8 +82,11 @@
             </tbody>
         </table>
     </div>
-    <a href="{{ route('kepala.laporan.cetak', ['status' => 'Denda']) }}" target="_blank" class="cetak-laporan">
-        Cetak Laporan Denda
-    </a>
+        <a href="{{ route('kepala.laporan.cetak', array_merge(
+            request()->query(),
+            ['status' => 'Denda']
+        )) }}" target="_blank" class="cetak-laporan">
+            Cetak Laporan Denda
+        </a>
 
 @endsection

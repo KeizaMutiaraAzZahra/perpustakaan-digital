@@ -6,6 +6,25 @@
 <section class="laporan-peminjaman">
     <h2 class="title">Laporan Peminjaman</h2>
 
+    <div class="top-bar">
+        <form action="{{ route('kepala.laporan.peminjaman') }}" method="GET" class="search-wrapper">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" name="search" placeholder="Cari" value="{{ request('search') }}">
+            </div>
+            <button type="submit" class="btn-cari">Cari</button>
+
+            <div class="search-box">
+                <input type="date" name="start_date" placeholder="Cari" value="{{ request('start_date') }}">
+                <input type="date" name="end_date" placeholder="Cari" value="{{ request('end_date') }}">
+            </div>
+    
+            <button type="submit" class="btn-cari">Filter</button>
+
+            <input type="hidden" name="status" value="Peminjaman">
+        </form>
+    </div>
+
     <div class="table-card">
         <table class="main-table">
             <thead>
@@ -43,8 +62,9 @@
             </tbody>
         </table>
     </div>
-    <a href="{{ route('kepala.laporan.cetak', ['status' => 'Peminjaman']) }}" target="_blank" class="cetak-laporan">
-        Cetak Laporan Peminjaman
-    </a>
+        <a href="{{ route('kepala.laporan.cetak', request()->query()) }}" target="_blank" class="cetak-laporan">
+            Cetak Laporan Peminjaman
+        </a>
+
 </section>
 @endsection

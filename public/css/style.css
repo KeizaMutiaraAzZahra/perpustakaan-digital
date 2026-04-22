@@ -693,6 +693,65 @@
     overflow: hidden;
 }
 
+/* TOP BAR (Search & Button) */
+.laporan-peminjaman .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.laporan-peminjaman .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 8px 15px;
+    width: 300px;
+    background: #fff;
+}
+
+.laporan-peminjaman .search-box img {
+    width: 18px;
+    margin-right: 10px;
+}
+
+.laporan-peminjaman .search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.laporan-peminjaman .btn-search {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.laporan-peminjaman .btn-cari {
+    background: #303f9f;
+    color: white;
+    border: 1px;
+    padding: 0 30px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    border-radius: 5px;
+}
+
+
+.laporan-peminjaman .search-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+
 /* Styling Tabel */
 .main-table {
     width: 100%;
@@ -1038,6 +1097,67 @@
 }
 
 
+/* TOP BAR (Search & Button) */
+.laporan-pengembalian .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.laporan-pengembalian .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 8px 15px;
+    width: 300px;
+    background: #fff;
+}
+
+.laporan-pengembalian .search-box img {
+    width: 18px;
+    margin-right: 10px;
+}
+
+.laporan-pengembalian .search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.laporan-pengembalian .btn-search {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.laporan-pengembalian .btn-cari {
+    background: #303f9f;
+    color: white;
+    border: 1px;
+    padding: 0 30px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    border-radius: 5px;
+}
+
+
+.laporan-pengembalian .search-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+
+
+
 /* RESET JARAK KHUSUS HALAMAN INI */
 .data-anggota-kepala * {
     box-sizing: border-box;
@@ -1144,6 +1264,7 @@
 .data-anggota-kepala .text-center {
     text-align: center !important;
 }
+
 /* CSS Laporan Denda Kepala Perpustakaan */
 /* Container Utama */
 .laporan-denda-kepala {
@@ -1198,6 +1319,64 @@
 /* Efek zebra opsional jika ingin lebih rapi */
 .laporan-denda-kepala .data-table tr:nth-child(even) {
     background-color: #fcfcfc;
+}
+
+/* TOP BAR (Search & Button) */
+.laporan-denda-kepala .top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.laporan-denda-kepala .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 8px 15px;
+    width: 300px;
+    background: #fff;
+}
+
+.laporan-denda-kepala .search-box img {
+    width: 18px;
+    margin-right: 10px;
+}
+
+.laporan-denda-kepala .search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.laporan-denda-kepala .btn-search {
+    background-color: #4e73df;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.laporan-denda-kepala .btn-cari {
+    background: #303f9f;
+    color: white;
+    border: 1px;
+    padding: 0 30px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    border-radius: 5px;
+}
+
+
+.laporan-denda-kepala .search-wrapper {
+    display: flex;
+    gap: 10px;
 }
 
 /* CSS PETUGAS */

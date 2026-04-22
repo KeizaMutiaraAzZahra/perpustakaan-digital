@@ -19,17 +19,12 @@
             font-size: 12px;
             text-align: center;
         }
-
-        .ttd {
-            margin-top: 50px;
-            text-align: right;
-        }
     </style>
 </head>
 <body>
 
 <div class="kop">
-    <h2>LAPORAN PEMINJAMAN</h2>
+    <h2>LAPORAN PENGEMBALIAN</h2>
     <p>Sistem Perpustakaan Digital</p>
 </div>
 
@@ -41,32 +36,47 @@
             <th>No</th>
             <th>Nama Anggota</th>
             <th>Judul Buku</th>
-            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Denda</th>
         </tr>
     </thead>
-    <<tbody>
+    <tbody>
         @forelse($data as $item)
         <tr>
             <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->anggota->nama }}</td>
-            <td>{{ $item->buku->judul }}</td>
-            <td>{{ $item->tanggal_pinjam }}</td>
+            <td>{{ $item->anggota->nama ?? '-' }}</td>
+            <td>{{ $item->buku->judul ?? '-' }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->tanggal_kembali)->format('d/m/Y') }}</td>
+            <td>Rp {{ number_format($item->denda ?? 0, 0, ',', '.') }}</td>
         </tr>
         @empty
         <tr>
-            <td colspan="4">Data tidak ada</td>
+            <td colspan="5">Data tidak ada</td>
         </tr>
         @endforelse
     </tbody>
 </table>
 
-<div class="ttd">
-    <p>Banjar, {{ date('d F Y') }}</p>
-    <p>Kepala Perpustakaan,</p>
+<div style="margin-top: 60px;">
+    <table width="100%" style="border: none;">
+        <tr>
+            <!-- KIRI -->
+            <td style="text-align: left; border: none;">
+                Mengetahui,<br>
+                Kepala Perpustakaan
+                <br><br><br><br>
+                <b>( Nama Kepala Perpustakaan )</b>
+            </td>
 
-    <br><br><br>
-
-    <p><b>( Kepala Perpustakaan )</b></p>
+            <!-- KANAN -->
+            <td style="text-align: right; border: none;">
+                Banjar, {{ date('d F Y') }}<br>
+                Petugas Perpustakaan
+                <br><br><br><br>
+                <b>( Nama Petugas )</b>
+            </td>
+        </tr>
+    </table>
 </div>
 
 </body>
