@@ -29,11 +29,18 @@
                         <td class="text-center">
                             {{ $aktif->status ?? 'Data Kosong' }}
                         </td>
-                        <td class="text-center">
-                            <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn-kembalikan">
-                                Kembalikan
-                            </a>
-                        </td>
+                            <td>
+                                {{-- Tombol muncul jika statusnya Dipinjam ATAU Terlambat --}}
+                                @if($aktif->status == 'Dipinjam' || (now()->startOfDay()->gt(\Carbon\Carbon::parse($aktif->jatuh_tempo)->startOfDay())))
+                                    <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn btn-success btn-sm">
+                                        Kembalikan
+                                    </a>
+                                @elseif($aktif->status == 'Diproses')
+                                    <span class="text-muted small">Menunggu Konfirmasi</span>
+                                @else
+                                    -
+                                @endif
+                            </td>
                     </tr>
                     @empty
                     <tr>
@@ -85,8 +92,21 @@
                                 <span class="text-success">Tidak ada</span>
                             @endif
                         </td>
-                        <td class="text-center">
-                            <span class="badge bg-success">Selesai</span>
+                        <td>
+                            @php
+                                // Pastikan variabelnya $riwayat, bukan $item
+                                $jatuhTempo = \Carbon\Carbon::parse($riwayat->jatuh_tempo);
+                                $terlambat = now()->startOfDay()->gt($jatuhTempo->startOfDay());
+                            @endphp
+
+                            @if($terlambat && $riwayat->status == 'Dipinjam')
+                                <span class="badge bg-danger">Terlambat</span>
+                            @else
+                                {{-- Warna biru untuk Diproses/Dipinjam, Hijau untuk Kembali --}}
+                                <span class="badge {{ $riwayat->status == 'Kembali' ? 'bg-success' : 'bg-primary' }}">
+                                    {{ $riwayat->status }}
+                                </span>
+                            @endif
                         </td>
                     </tr>
                     @empty

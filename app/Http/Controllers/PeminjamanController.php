@@ -158,14 +158,21 @@ class PeminjamanController extends Controller
     public function dendaAnggota()
     {
         $userId = auth()->id();
-        $query = Peminjaman::with('buku')
+
+        // Ambil semua peminjaman milik user ini yang ada dendanya (lebih dari 0)
+        $daftarDenda = Peminjaman::with('buku')
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('denda', '>', 0);
+            ->where('denda', '>', 0) 
+            ->paginate(10);
 
-        $totalTagihan = $query->sum('denda');
-        $daftarDenda = $query->paginate(10);
+        // Hitung total semua denda yang belum dibayar
+        $totalTagihan = Peminjaman::whereHas('anggota', function($q) use ($userId) {
+                $q->where('user_id', $userId);
+            })
+            ->where('denda', '>', 0)
+            ->sum('denda');
 
         return view('anggota.data-denda', compact('daftarDenda', 'totalTagihan'));
     }
@@ -176,7 +183,18 @@ class PeminjamanController extends Controller
     public function showForm($id) 
     {
         $data = Peminjaman::with('buku')->findOrFail($id);
-        return view('anggota.form-pengembalian', compact('data'));
+        
+        // Hitung denda sementara untuk ditampilkan di layar
+        $sekarang = now()->startOfDay();
+        $jatuhTempo = Carbon::parse($data->jatuh_tempo)->startOfDay();
+        $denda = 0;
+
+        if ($sekarang->gt($jatuhTempo)) {
+            $hariTerlambat = $jatuhTempo->diffInDays($sekarang);
+            $denda = $hariTerlambat * 5000; // Tarif 5000 per hari
+        }
+
+        return view('anggota.form-pengembalian', compact('data', 'denda'));
     }
 
     /**
@@ -192,14 +210,15 @@ class PeminjamanController extends Controller
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('status', 'Kembali') 
+            // UBAH DISINI: Tambahkan status 'Terlambat' agar muncul di riwayat
+            ->whereIn('status', ['Kembali', 'Terlambat']) 
             ->when($keyword, function($query) use ($keyword) {
                 $query->whereHas('buku', function($q) use ($keyword) {
                     $q->where('judul', 'like', "%$keyword%");
                 });
             })
             ->latest('tanggal_kembali')
-            ->paginate(10) // Tambahkan paginate biar seragam
+            ->paginate(10)
             ->withQueryString();
 
         return view('anggota.data-pengembalian', compact('pengembalian'));
@@ -208,20 +227,27 @@ class PeminjamanController extends Controller
     public function prosesPengembalian(Request $request, $id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
-        $denda = 0;
         
-        if (now()->gt($peminjaman->jatuh_tempo)) {
-            $hariTerlambat = now()->diffInDays($peminjaman->jatuh_tempo);
-            $denda = $hariTerlambat * 1000; 
+        $sekarang = now()->startOfDay(); 
+        $jatuhTempo = Carbon::parse($peminjaman->jatuh_tempo)->startOfDay();
+
+        $denda = 0;
+        $status = 'Kembali';
+
+        // Logika Hitung Denda Rp 5.000
+        if ($sekarang->gt($jatuhTempo)) {
+            $hariTerlambat = $jatuhTempo->diffInDays($sekarang);
+            $denda = $hariTerlambat * 5000;
+            $status = 'Terlambat';
         }
 
         $peminjaman->update([
-            'status' => 'Kembali',
-            'tanggal_kembali' => now(),
+            'status' => $status,
+            'tanggal_kembali' => now(), // Mencatat waktu asli pengembalian
             'denda' => $denda,
         ]);
 
         return redirect()->route('anggota.data-pengembalian')
-                         ->with('success', 'Buku berhasil dikembalikan!');
+                         ->with('success', 'Buku berhasil dikembalikan dengan status: ' . $status);
     }
 }

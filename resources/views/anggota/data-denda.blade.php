@@ -75,7 +75,9 @@
 
     <div class="action-container">
         <div class="total-summary">
-            <button class="btn-bayar">Bayar Denda</button>
+            <button class="btn-bayar" onclick="alert('Silahkan lakukan pembayaran tunai ke petugas di meja sirkulasi perpustakaan dengan membawa kartu anggota.')">
+                Bayar Denda
+            </button>
         </div>
     </div>
 </div>

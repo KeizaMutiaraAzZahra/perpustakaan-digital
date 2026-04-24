@@ -39,8 +39,14 @@
                         <td>{{ $item->buku->judul }}</td>
                         <td>{{ ($item->tanggal_pinjam)->format('d-m-Y') }}</td>
                         <td>{{ ($item->tanggal_kembali)->format('d-m-Y') }}</td>
-                        <td>Rp. {{ number_format($item->denda, 0, ',', '.') }}</td>
-                        <td><span class="status-badge">Selesai</span></td>
+                        <td>Rp {{ number_format($item->denda, 0, ',', '.') }}</td>
+                        <td>
+                            @if($item->status == 'Terlambat')
+                                <span class="status-badge" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px;">Terlambat</span>
+                            @else
+                                <span class="status-badge" style="background-color: #2ecc71; color: white; padding: 5px 10px; border-radius: 5px;">Selesai</span>
+                            @endif
+                        </td>
                     </tr>
                     @empty
                     <tr>

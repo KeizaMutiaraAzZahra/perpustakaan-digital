@@ -88,4 +88,5 @@ Route::prefix('anggota')->name('anggota.')->middleware(['auth', 'can:role,"anggo
 
     // Untuk Denda
     Route::get('/denda', [PeminjamanController::class, 'dendaAnggota'])->name('data-denda');
+    Route::get('/profile', [AnggotaController::class, 'profile'])->name('profile');
 });

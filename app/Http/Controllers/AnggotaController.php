@@ -140,4 +140,10 @@ class AnggotaController extends Controller
 
         return redirect()->route('petugas.anggota.index')->with('success', 'Anggota berhasil dihapus!');
     }
+
+    public function profile()
+{
+    $user = auth()->user(); // Mengambil data user yang sedang login
+    return view('anggota.profile', compact('user'));
 }
+}   
