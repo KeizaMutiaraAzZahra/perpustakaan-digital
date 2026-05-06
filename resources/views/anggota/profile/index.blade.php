@@ -28,9 +28,20 @@
                 <p>{{ $user->username }}</p>
             </div>
 
-            <div class="info-item">
-                <label>Alamat Email</label>
-                <p>{{ $user->email }}</p>
+            <div class="info-item mb-3">
+                <label class="text-muted d-block small uppercase fw-bold">Kelas</label>
+                {{-- Ambil dari tabel anggota via relasi --}}
+                <p class="mb-0 text-dark">{{ $user->anggota->kelas ?? '-' }}</p>
+            </div>
+
+            <div class="info-item mb-3">
+                <label class="text-muted d-block small uppercase fw-bold">Jurusan</label>
+                <p class="mb-0 text-dark">{{ $user->anggota->jurusan ?? '-' }}</p>
+            </div>
+
+            <div class="info-item mb-3">
+                <label class="text-muted d-block small uppercase fw-bold">No Telepon</label>
+                <p class="mb-0 text-dark">{{ $user->anggota->no_telepon ?? '-' }}</p>
             </div>
 
             <div class="info-item">
@@ -40,8 +51,9 @@
             
             <hr class="divider">
             <div class="profile-actions">
-                <button class="btn-edit">Edit Profil</button>
-                <button class="btn-password">Ganti Password</button>
+                <a href="{{ route('anggota.profile.edit') }}">
+                    <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#modalEdit">Edit Profil</button>
+                </a>
             </div>
         </div>
     </div>

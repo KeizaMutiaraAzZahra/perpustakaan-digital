@@ -71,19 +71,6 @@
     padding: 30px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-/* Container Dashboard */
-.dasboard-kepala {
-    padding: 30px;
-    background-color: transparent;
-}
-
-.dasboard-kepala .title {
-    font-family: 'Protest Strike', sans-serif;
-    font-size: 32px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-}
 
 /* Grid untuk Kartu Statistik */
 .stats-container {
@@ -106,23 +93,7 @@
     color: white;
 }
 
-.icon-dashboard-kepala {
-    width: 60px;
-    height: 60px;
-    filter: brightness(0) invert(1); /* Membuat ikon putih jika aslinya berwarna */
-}
 
-.teks-dashboard-kepala {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.teks-p {
-    font-size: 29px;
-    margin-left: -95px;
-    margin-top: 10px;
-}
 
 /* Aktivitas Terbaru (Rectangle 6) */
 .rectangle-6 {
@@ -175,7 +146,6 @@
     margin-top: 5px;
 }
 
-
 /* TEKS SIDEBAR */
 .sidebar-teks {
     color: #ffffff;
@@ -215,25 +185,102 @@
     font-weight: bold;
 }
 
+/* CSS DASHBOARD KEPALA (Sama dengan Petugas) */
+.dashboard-kepala {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-.icon-dashboard-kepala {
-    position: relative;
-    width: 51px;
-    height: 55px;
+.dashboard-kepala .title {
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+/* Grid Kartu Statistik */
+.dashboard-kepala .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}   
+
+.dashboard-kepala .stat-card {
+    background-color: #303f9f !important; 
+    border-radius: 12px;
+    padding: 0 30px; 
+    display: flex;
+    align-items: center; 
+    gap: 20px;
+    color: white;
+    min-height: 95px;
+    width: 85%; /* Sedikit diperlebar dari 70% agar teks tidak sesak */
+}
+
+.dashboard-kepala .stat-icon {
+    display: flex;
+    align-items: center;
     margin-right: 15px;
-    top: 6px;
-    left: -10px;
+    opacity: 0.6; /* Membuat icon gambar agak transparan seperti dashboard petugas */
 }
 
-/* TEKS CARD DASHBOARD */
-.teks-dashboard-kepala {
-    font-family: "Protest Strike", Helvetica;
+.dashboard-kepala .stat-label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.dashboard-kepala .stat-value {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Bagian Aktivitas Terbaru */
+.dashboard-kepala .recent-activity {
+    background-color: #fff;
+}
+
+.dashboard-kepala .section-subtitle {
     font-size: 18px;
-    margin-top: -66px;
-    margin-left: -60px;
-    color: #ffffff;
-
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
 }
+
+.dashboard-kepala .activity-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-kepala .activity-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-kepala .activity-item i {
+    margin-right: 10px;
+    color: #303f9f;
+}
+
+.dashboard-kepala .activity-item p {
+    margin: 0;
+    font-size: 15px;
+    color: #444;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+    .dashboard-kepala .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-kepala .stat-card {
+        width: 100%;
+    }
+}
+
 
 /* DATA PETUGAS */
 /* WRAPPER */
@@ -323,6 +370,40 @@
   padding: 5px;
   border-radius: 5px;
   color: white;
+}
+
+/* Styling Tombol Aksi Icon */
+.data-petugas .aksi-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Jarak antar icon */
+    align-items: center;
+}
+
+.data-petugas .btn-icon-edit {
+    color: #303f9f; /* Warna biru */
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.data-petugas .btn-icon-edit:hover {
+    color: #1a237e;
+    transform: scale(1.1);
+}
+
+.data-petugas .btn-icon-delete {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #dc3545; /* Warna merah */
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.data-petugas .btn-icon-delete:hover {
+    color: #a71d2a;
+    transform: scale(1.1);
 }
 
 .aktif {
@@ -701,7 +782,6 @@
 .search-box {
     display: flex;
     align-items: center;
-    border: 1px solid #999;
     border-radius: 4px 0 0 4px;
     padding: 4px 12px;
     background: white;
@@ -1216,7 +1296,7 @@
     color: white;
 }
 
-.data-buku-petugas .btn-action.detail { background-color: #2c3e50; }
+.data-buku-petugas .btn-action.detail { background-color: #117ce6; }
 .data-buku-petugas .btn-action.edit { background-color: #f39c12; }
 .data-buku-petugas .btn-action.hapus { background-color: #e74c3c; }
 
@@ -1594,19 +1674,30 @@
     text-align: center;
 }
 
-/* Badge & Aksi */
+/* Badge Dasar */
 .peminjaman-petugas .badge {
     padding: 4px 15px;
     border-radius: 4px;
-    color: white;
+    color: white; /* Pastikan teks warna putih */
     font-size: 11px;
     display: inline-block;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
-.peminjaman-petugas .bg-aktif { background-color: #28a745; }
-.peminjaman-petugas .bg-nonaktif { background-color: #dc3545; }
-.peminjaman-petugas .bg-pending { background-color: #ffc107; }
+/* Warna Status */
+.peminjaman-petugas .bg-aktif { 
+    background-color: #28a745 !important; 
+} /* Hijau untuk dikonfirmasi */
+
+.peminjaman-petugas .bg-pending { 
+    background-color: #ffc107 !important; 
+    color: #212529; /* Khusus kuning teksnya hitam agar terbaca */
+} 
+
+.peminjaman-petugas .bg-nonaktif { 
+    background-color: #dc3545 !important; 
+}
 
 .peminjaman-petugas .text-danger {
     color: #dc3545;
@@ -1895,44 +1986,41 @@
     font-weight: bold;
 }
 
-/* Grid Box Biru */
-.dashboard-anggota .stats-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
 .dashboard-anggota .stat-card {
     background-color: #303f9f;
     border-radius: 12px;
-    padding: 30px 20px;
+    padding: 20px;
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Bikin icon dan teks sejajar kiri-kanan */
+    flex-direction: row; /* Pastikan arahnya ke samping */
+    align-items: center; /* Icon dan teks rata tengah secara vertikal */
+    gap: 20px; /* Jarak antara icon dan teks */
     transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.dashboard-anggota .stat-card:hover {
-    transform: translateY(-5px);
-    background-color: #283593;
-    box-shadow: 0 10px 20px rgba(48, 63, 159, 0.2);
 }
 
 .dashboard-anggota .stat-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
+    font-size: 40px; /* Ukuran icon gede di kiri */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-anggota .stat-info {
+    display: flex;
+    flex-direction: column; /* Label dan Angka tetap tumpuk atas-bawah */
+    align-items: flex-start; /* Teks rata kiri */
 }
 
 .dashboard-anggota .stat-label {
+    font-size: 14px;
     font-weight: 600;
-    font-size: 15px;
-    text-align: center;
+    margin-bottom: 2px;
 }
 
+.dashboard-anggota .stat-value {
+    font-size: 22px;
+    font-weight: 800;
+}
 /* Tombol Cari Buku */
 .dashboard-anggota .btn-cari-buku {
     display: flex;
@@ -2174,26 +2262,36 @@
     font-size: 0.85rem;
 }
 
+/* Pastikan pembungkusnya pakai Flexbox */
+.data-denda-anggota .search-wrapper {
+    display: flex; /* Ini kunci biar sejajar ke samping */
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+}
+
+/* Pastikan kotak inputnya nggak terlalu lebar */
 .data-denda-anggota .search-box {
     display: flex;
-    margin-left: auto;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow: hidden;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 10px;
+    background: #fff;
+    width: 200px; 
+    height: 34px;
 }
 
-.data-denda-anggota .search-box input {
-    border: none;
-    padding: 8px 15px;
-    outline: none;
-}
-
+/* Tombol cari biar pas tingginya */
 .data-denda-anggota .btn-search {
-    background: #303f9f;
+    background-color: #303f9f;
     color: white;
     border: none;
-    padding: 0 15px;
+    padding: 6px 15px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 13px;
+    height: 32px; /* Sesuaikan dengan tinggi search-box */
 }
 
 /* Tabel Styling */
@@ -2650,3 +2748,100 @@
 
     .profil-anggota .btn-edit:hover { background: #0b5ed7; }
     .profil-anggota .btn-password:hover { background: #f8f9fa; }
+
+    .edit-profil {
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.edit-profil .modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Membuat Label dan Input Sejajar (Flexbox) */
+.edit-profil .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.edit-profil .form-group label {
+    width: 180px; /* Lebar area label */
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.edit-profil .form-control, 
+.edit-profil .form-select {
+    flex: 1; /* Input mengambil sisa ruang */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: all 0.3s;
+}
+
+.edit-profil .form-control:focus {
+    background-color: #fff;
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.1);
+    outline: none;
+}
+
+/* Styling Tombol */
+.edit-profil .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.edit-profil .btn {
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-profil .btn-batal {
+    background: #eaecf4;
+    color: #5a5c69;
+}
+
+.edit-profil .btn-batal:hover {
+    background: #d1d3e2;
+}
+
+.edit-profil .btn-simpan {
+    background: #4e73df;
+    color: white;
+}
+
+.edit-profil .btn-simpan:hover {
+    background: #2e59d9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(78, 115, 223, 0.2);
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 576px) {
+    .edit-profil .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .edit-profil .form-group label {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}

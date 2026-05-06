@@ -11,7 +11,7 @@
     <div class="table-card">
         <div class="table-controls">
             <form action="{{ route('petugas.anggota.index') }}" method="GET" class="search-box">
-                <input type="text" name="search" placeholder="Cari Anggota" value="{{ request('search') }}">
+                <input type="text" name="cari" placeholder="Cari Anggota" value="{{ request('search') }}">
                 <button type="submit" class="btn-cari">Cari</button>
             </form>
             <a href="{{ route('petugas.anggota.create') }}"  class="btn-tambah">+ Tambah Anggota</a>
@@ -32,7 +32,7 @@
             <tbody>
                 @forelse ($anggota as $index => $row)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $anggota->firstItem() + $index }}</td>
                     <td>{{ $row->nama }}</td>
                     <td>{{ $row->kelas }}</td>
                     <td>{{ $row->jurusan }}</td>
@@ -52,7 +52,7 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table>\
+        </table>
         <div class="mt-3">
             {{ $anggota->links() }}
         </div>

@@ -17,20 +17,24 @@
         </div>
     </div>
 
-    <div class="filter-container">
-        <select class="filter-select">
-            <option>Semua Status</option>
-            <option>Belum Bayar</option>
-            <option>Proses</option>
-        </select>
-        <select class="filter-select">
-            <option>Semua Waktu</option>
-        </select>
-        <div class="search-box">
-            <input type="text" placeholder="Cari Denda">
-            <button class="btn-search">Cari</button>
+    <form action="{{ route('anggota.data-denda') }}" method="GET">
+        <div class="filter-container">
+            <select name="status" class="filter-select" onchange="this.form.submit()">
+                <option value="">Semua Status</option>
+                <option value="Belum Bayar" {{ request('status') == 'Belum Bayar' ? 'selected' : '' }}>Belum Bayar</option>
+                <option value="Proses" {{ request('status') == 'Proses' ? 'selected' : '' }}>Proses</option>
+                <option value="Terlambat" {{ request('status') == 'Terlambat' ? 'selected' : '' }}>Terlambat</option>
+            </select>
+
+            {{-- Search Box & Button --}}
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <input type="text" name="cari" placeholder="Cari Judul Buku..." value="{{ request('cari') }}">
+                </div>
+                <button type="submit" class="btn-search">Cari</button>
+            </div>
         </div>
-    </div>
+</form>
 
     <div class="table-card">
         <h4 class="table-title">Tagihan Anda</h4>

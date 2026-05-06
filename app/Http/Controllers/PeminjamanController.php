@@ -155,19 +155,29 @@ class PeminjamanController extends Controller
     /**
      * Data Denda - ANGGOTA
      */
-    public function dendaAnggota()
+    public function dendaAnggota(Request $request)
     {
         $userId = auth()->id();
-
-        // Ambil semua peminjaman milik user ini yang ada dendanya (lebih dari 0)
-        $daftarDenda = Peminjaman::with('buku')
+        $query = Peminjaman::with('buku')
             ->whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
-            ->where('denda', '>', 0) 
-            ->paginate(10);
+            ->where('denda', '>', 0);
 
-        // Hitung total semua denda yang belum dibayar
+        if ($request->filled('cari')) {
+            $search = $request->cari;
+            $query->whereHas('buku', function($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%');
+            });
+        }
+
+        
+        if ($request->filled('status') && $request->status != 'Semua Status') {
+            $query->where('status', $request->status);
+        }
+
+        $daftarDenda = $query->latest()->paginate(10)->withQueryString();
+        
         $totalTagihan = Peminjaman::whereHas('anggota', function($q) use ($userId) {
                 $q->where('user_id', $userId);
             })
@@ -177,7 +187,20 @@ class PeminjamanController extends Controller
         return view('anggota.data-denda', compact('daftarDenda', 'totalTagihan'));
     }
 
-    /**
+    public function updateDenda($id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+        
+        // Set denda jadi 0, dan statusnya kita ubah ke 'Kembali' 
+        // agar tidak muncul lagi di daftar tagihan denda
+        $peminjaman->update([
+            'denda' => 0,
+            'status' => 'Kembali' 
+        ]);
+
+        return redirect()->back()->with('success', 'Denda berhasil dibayar lunas!');
+    }
+        /**
      * Form Pengembalian - ANGGOTA
      */
     public function showForm($id) 

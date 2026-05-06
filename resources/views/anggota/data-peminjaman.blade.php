@@ -21,32 +21,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($peminjamanAktif as $aktif)
+                    @foreach($peminjamanAktif as $aktif)
                     <tr>
                         <td>{{ $aktif->buku->judul }}</td>
-                        <td>{{ $aktif->tanggal_pinjam ? ($aktif->tanggal_pinjam)->format('d-m-Y') : '-' }}</td>
-                        <td>{{ $aktif->jatuh_tempo ? ($aktif->jatuh_tempo)->format('d-m-Y') : '-' }}</td>
+                        <td>{{ $aktif->tanggal_pinjam ?? '-' }}</td>
+                        <td>{{ $aktif->jatuh_tempo ?? '-' }}</td>
+                        
                         <td class="text-center">
-                            {{ $aktif->status ?? 'Data Kosong' }}
+                            @if($aktif->status == 'Terlambat')
+                                <span class="badge badge-danger">Terlambat</span>
+                            @else
+                                <span class="badge badge-warning" style="background-color: #303f9f; color: white;">{{ $aktif->status }}</span>
+                            @endif
                         </td>
-                            <td>
-                                {{-- Tombol muncul jika statusnya Dipinjam ATAU Terlambat --}}
-                                @if($aktif->status == 'Dipinjam' || (now()->startOfDay()->gt(\Carbon\Carbon::parse($aktif->jatuh_tempo)->startOfDay())))
-                                    <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn btn-success btn-sm">
-                                        Kembalikan
-                                    </a>
-                                @elseif($aktif->status == 'Diproses')
-                                    <span class="text-muted small">Menunggu Konfirmasi</span>
-                                @else
-                                    -
-                                @endif
-                            </td>
+
+                        <td class="text-center">
+                            <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn-kembalikan">
+                                Kembalikan
+                            </a>
+                        </td>
                     </tr>
-                    @empty
+                    @endforeach
+
+                    @if($peminjamanAktif->isEmpty())
                     <tr>
-                        <td colspan="4" class="text-center">Belum ada peminjaman aktif</td>
+                        <td colspan="5" class="text-center">Belum ada peminjaman aktif</td>
                     </tr>
-                    @endforelse
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -73,47 +74,34 @@
                         <th>Tanggal Kembali</th>
                         <th>Denda</th>
                         <th>Status</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($riwayatPeminjaman as $riwayat)
-                    <tr>
-                        <td>{{ $riwayat->buku->judul }}</td>
-                        {{-- Tanggal Pinjam --}}
-                        <td>{{ $riwayat->tanggal_pinjam ? $riwayat->tanggal_pinjam->format('d-m-Y') : '-' }}</td>
-                        {{-- Tanggal Kembali --}}
-                        <td>{{ $riwayat->tanggal_kembali ? $riwayat->tanggal_kembali->format('d-m-Y') : '-' }}</td>
-                        {{-- Kolom Denda --}}
-                        <td>
-                            @if($riwayat->denda > 0)
-                                <span class="text-danger">Rp {{ number_format($riwayat->denda, 0, ',', '.') }}</span>
-                            @else
-                                <span class="text-success">Tidak ada</span>
-                            @endif
-                        </td>
-                        <td>
-                            @php
-                                // Pastikan variabelnya $riwayat, bukan $item
-                                $jatuhTempo = \Carbon\Carbon::parse($riwayat->jatuh_tempo);
-                                $terlambat = now()->startOfDay()->gt($jatuhTempo->startOfDay());
-                            @endphp
-
-                            @if($terlambat && $riwayat->status == 'Dipinjam')
-                                <span class="badge bg-danger">Terlambat</span>
-                            @else
-                                {{-- Warna biru untuk Diproses/Dipinjam, Hijau untuk Kembali --}}
-                                <span class="badge {{ $riwayat->status == 'Kembali' ? 'bg-success' : 'bg-primary' }}">
-                                    {{ $riwayat->status }}
-                                </span>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center">Belum ada riwayat peminjaman</td>
-                    </tr>
-                    @endforelse
+                    @if(count($riwayatPeminjaman) > 0)
+                        @foreach($riwayatPeminjaman as $riwayat)
+                            <tr>
+                                <td>{{ $riwayat->buku->judul }}</td>
+                                <td>{{ $riwayat->tanggal_pinjam ?? '-' }}</td>
+                                <td>{{ $riwayat->tanggal_kembali ?? '-' }}</td>
+                                <td>
+                                    @if($riwayat->denda > 0)
+                                        <span style="color: red; font-weight: bold;">
+                                            Rp {{ number_format($riwayat->denda, 0, ',', '.') }}
+                                        </span>
+                                    @else
+                                        <span style="color: green;">Tidak ada</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge badge-success">Selesai</span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5" class="text-center">Belum ada riwayat peminjaman</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

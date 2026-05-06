@@ -24,7 +24,7 @@
         <a href="{{ route('anggota.data-denda') }}" class="nav-item">
             <i class="bi bi-journal-x"></i> <span>Data Denda</span>
         </a>
-        <a href="{{ route('anggota.profile') }}" class="nav-item">
+        <a href="{{ route('anggota.profile.index') }}" class="nav-item">
             <i class="bi bi-person-circle"></i> <span>Profile</span>
         </a>
 

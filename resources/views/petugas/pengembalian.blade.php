@@ -58,6 +58,9 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $pengembalian->links() }} 
+        </div>
     </div>
 </div>
 @endsection

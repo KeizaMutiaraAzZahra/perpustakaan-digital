@@ -33,16 +33,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($peminjaman as $index => $p)
+                {{-- Gunakan forelse untuk menangani kondisi data kosong --}}
+                @forelse ($peminjaman as $index => $p)
                 <tr>
-                    <td class="text-center">{{ $index + 1 }}</td>
+                    {{-- Penomoran yang sinkron dengan pagination --}}
+                    <td class="text-center">{{ $peminjaman->firstItem() + $index }}</td>
                     <td>{{ $p->anggota->nama }}</td>
                     <td>{{ $p->buku->judul }}</td>
-                    {{-- Menggunakan format tanggal yang aman --}}
                     <td>{{ $p->tanggal_pinjam ? \Carbon\Carbon::parse($p->tanggal_pinjam)->format('d-m-Y') : '-' }}</td>
                     <td>{{ $p->jatuh_tempo ? \Carbon\Carbon::parse($p->jatuh_tempo)->format('d-m-Y') : '-' }}</td>
                     <td class="text-center">
-                        {{ $p->status }}
+                        <span class="badge {{ $p->status == 'Diproses' ? 'bg-pending' : 'bg-aktif' }}">
+                            {{ $p->status }}
+                        </span>
                     </td>
                     <td class="text-center">
                         @if($p->status == 'Diproses')
@@ -52,13 +55,28 @@
                                 <button type="submit" class="btn-aksi-konfirmasi">Konfirmasi</button>
                             </form>
                         @else
-                            <span class="text-muted">Telah Dikonfirmasi</span>
+                            <span class="text-muted small">Telah Dikonfirmasi</span>
                         @endif
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                {{-- Tampilan jika data tidak ditemukan atau kosong --}}
+                <tr>
+                    <td colspan="7" class="text-center py-5">
+                        <div class="empty-state">
+                            <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-2">Tidak ada data peminjaman yang ditemukan.</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
+
+        {{-- Navigasi Pagination --}}
+        <div class="d-flex justify-content-center mt-4">
+            {{ $peminjaman->links() }} 
+        </div>
     </div>
 </div>
 @endsection

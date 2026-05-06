@@ -7,26 +7,34 @@
     <h2 class="section-title">DATA BUKU</h2>
 
     <div class="search-filter-container">
-        <form action="{{ route('anggota.buku.search') }}" method="GET" class="search-wrapper">
-            <div class="input-group">
-                <span class="search-icon"><i class="bi bi-search"></i></span>
-                <input type="text" name="keyword" placeholder="Cari Buku" value="{{ request('keyword') }}">
-                <button type="submit" class="btn-cari">Cari</button>
+        <form action="{{ route('anggota.data-buku') }}" method="GET" class="w-100">
+            <div class="search-wrapper mb-3">
+                <div class="input-group">
+                    <span class="search-icon"><i class="bi bi-search"></i></span>
+                    <input type="text" name="keyword" placeholder="Cari Buku" value="{{ request('keyword') }}">
+                    <button type="submit" class="btn-cari">Cari</button>
+                </div>
+            </div>
+            
+            <div class="dropdown-filters">
+                <select name="kategori" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    <option value="Pelajaran" {{ request('kategori') == 'Pelajaran' ? 'selected' : '' }}>Buku Paket</option>
+                    <option value="Novel" {{ request('kategori') == 'Novel' ? 'selected' : '' }}>Novel</option>
+                    <option value="Komik" {{ request('kategori') == 'Komik' ? 'selected' : '' }}>Komik</option>
+                </select>
+
+                <select name="status" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Semua Status</option>
+                    <option value="tersedia" {{ request('status') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                    <option value="kosong" {{ request('status') == 'kosong' ? 'selected' : '' }}>Tidak Tersedia</option>
+                </select>
+
+                @if(request('keyword') || request('kategori') || request('status'))
+                    <a href="{{ route('anggota.data-buku') }}" class="btn btn-sm btn-secondary" style="margin-left: 10px;">Reset</a>
+                @endif
             </div>
         </form>
-        
-        <div class="dropdown-filters">
-            <select name="kategori" class="filter-select">
-                <option value="">Semua Kategori</option>
-                <option value="Novel">Novel</option>
-                <option value="Pelajaran">Buku Paket</option>
-            </select>
-            <select name="status" class="filter-select">
-                <option value="">Semua Status</option>
-                <option value="tersedia">Tersedia</option>
-                <option value="kosong">Tidak Tersedia</option>
-            </select>
-        </div>
     </div>
 
     <div class="book-grid">

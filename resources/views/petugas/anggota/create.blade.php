@@ -26,9 +26,10 @@
                 <label for="jurusan">Jurusan :</label>
                 <select id="jurusan" name="jurusan">
                     <option value="PPLG">PPLG</option>
-                    <option value="TJKT">TJKT</option>
-                    <option value="DKV">DKV</option>
-                    <option value="AKLN">AKLN</option>
+                    <option value="AKL">AKL</option>
+                    <option value="TBSM">TBSM</option>
+                    <option value="TKRO">TKRO</option>
+                    <option value="APAT">APAT</option>
                 </select>
             </div>
 

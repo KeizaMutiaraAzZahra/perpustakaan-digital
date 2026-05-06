@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
     Route::get('/', function () {
@@ -63,7 +64,11 @@ Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petug
     
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('pengembalian');
     Route::get('/denda', [PeminjamanController::class, 'denda'])->name('denda');
-    Route::patch('/denda/{id}/bayar', [PeminjamanController::class, 'bayarDenda'])->name('petugas.bayar-denda');
+    Route::put('/denda-lunas/{id}', [PeminjamanController::class, 'updateDenda'])->name('denda-lunas');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // --- HALAMAN ANGGOTA (Hanya role: anggota) ---
@@ -88,5 +93,9 @@ Route::prefix('anggota')->name('anggota.')->middleware(['auth', 'can:role,"anggo
 
     // Untuk Denda
     Route::get('/denda', [PeminjamanController::class, 'dendaAnggota'])->name('data-denda');
-    Route::get('/profile', [AnggotaController::class, 'profile'])->name('profile');
+
+    // Untuk Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });

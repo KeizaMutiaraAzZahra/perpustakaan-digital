@@ -91,10 +91,13 @@ class PetugasController extends Controller
         return redirect()->route('kepala.petugas.index');
     }
 
-    public function destroy($id)
+   public function destroy($id)
     {
-        $petugas->user->delete(); // otomatis hapus petugas juga (cascade)
-        return redirect()->route('kepala.petugas.index');
+        $petugas = Petugas::with('user')->findOrFail($id);
+
+        $petugas->user->delete(); 
+
+        return redirect()->route('kepala.petugas.index')->with('success', 'Petugas berhasil dihapus!');
     }
 
     public function toggleStatus($id)

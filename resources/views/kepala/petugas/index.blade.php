@@ -31,7 +31,9 @@
             <th>Alamat</th>
             <th>Jenis Kelamin</th>
             <th>No Telepon</th>
-            <th class="text-center">Status</th> <th class="text-center">Aksi</th>   </tr>
+            <th class="text-center">Status</th> 
+            <th class="text-center">Aksi</th>   
+        </tr>
     </thead>
     <tbody>
     @foreach ($petugas as $index => $p)
@@ -46,8 +48,18 @@
                 {{ $p->user->status }}
             </span>
         </td>
-        <td class="text-center">
-            <a href="{{ route('kepala.petugas.show', $p->id) }}" class="btn-detail">Detail</a>
+        <td class="text-center aksi-buttons">
+            <a href="{{ route('kepala.petugas.edit', $p->id) }}" class="btn-icon-edit" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+            </a>
+
+            <form action="{{ route('kepala.petugas.destroy', $p->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-icon-delete" onclick="return confirm('Yakin ingin menghapus petugas ini?')" title="Hapus">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </form>
         </td>
     </tr>
     @endforeach

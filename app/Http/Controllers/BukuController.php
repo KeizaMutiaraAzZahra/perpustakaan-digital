@@ -16,19 +16,31 @@ class BukuController extends Controller
     {
         return Buku::latest()->get();
     }
-
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $query = Buku::query();
-        
+
+        // Filter Pencarian
         if ($request->filled('cari')) {
             $query->where('judul', 'like', '%' . $request->cari . '%')
                 ->orWhere('penulis', 'like', '%' . $request->cari . '%');
         }
 
-        $buku = $query->latest()->paginate(10)->withQueryString();
+        // Filter Kategori
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        // Fitur Urutkan
+        if ($request->urutkan == 'terlama') {
+            $query->orderBy('created_at', 'asc');
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $buku = $query->paginate(10);
         return view('petugas.buku.index', compact('buku'));
-    }
+}
 
     public function kepala(Request $request)
     {
@@ -131,13 +143,35 @@ class BukuController extends Controller
         return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Dihapus!');
     }
 
-    public function anggota()
+    public function anggota(Request $request)
     {
-        $buku = Buku::latest()->paginate(8); 
+        $query = Buku::query();
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword) {
+                $q->where('judul', 'like', "%$keyword%")
+                ->orWhere('penulis', 'like', "%$keyword%");
+            });
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status == 'tersedia') {
+                $query->where('stok', '>', 0);
+            } elseif ($request->status == 'kosong') {
+                $query->where('stok', '<=', 0);
+            }
+        }
+
+        $buku = $query->latest()->paginate(8)->withQueryString();
         
         return view('anggota.data-buku', compact('buku'));
     }
-    
+
     public function search(Request $request)
     {
         $keyword = $request->keyword;

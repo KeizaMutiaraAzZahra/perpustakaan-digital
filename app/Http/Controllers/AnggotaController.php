@@ -14,18 +14,22 @@ class AnggotaController extends Controller
      */
     public function index(Request $request)
     {
-        // Gunakan model Anggota, bukan User
         $query = Anggota::query();
 
-        if ($request->cari) {
-            $query->where('nama', 'like', '%' . $request->cari . '%');
+        // Cek jika ada input 'cari'
+        if ($request->filled('cari')) {
+            $search = $request->cari;
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                ->orWhere('kelas', 'like', '%' . $search . '%')
+                ->orWhere('jurusan', 'like', '%' . $search . '%');
+            });
         }
 
         $anggota = $query->latest()->paginate(10)->withQueryString();
 
         return view('petugas.anggota.index', compact('anggota'));
     }
-
     /**
      * Tampilan untuk Kepala Perpustakaan
      */
@@ -140,10 +144,4 @@ class AnggotaController extends Controller
 
         return redirect()->route('petugas.anggota.index')->with('success', 'Anggota berhasil dihapus!');
     }
-
-    public function profile()
-{
-    $user = auth()->user(); // Mengambil data user yang sedang login
-    return view('anggota.profile', compact('user'));
 }
-}   

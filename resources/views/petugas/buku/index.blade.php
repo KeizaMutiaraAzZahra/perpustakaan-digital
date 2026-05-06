@@ -6,33 +6,39 @@
 <div class="data-buku-petugas">
     <h1 class="title">DATA BUKU</h1>
 
-    <div class="action-bar">
-        <form action="{{ route('petugas.buku.index') }}" method="GET" class="search-wrapper">
-            <div class="search-box">
-                <i class="bi bi-search"></i>
-                <input type="text" name="cari" placeholder="Cari Buku" value="{{ request('cari') }}">
+    {{-- 1. Bungkus semuanya dalam satu form agar data terkirim bersamaan --}}
+    <form action="{{ route('petugas.buku.index') }}" method="GET">
+        <div class="action-bar">
+            <div class="search-wrapper" style="display: flex; align-items: center;">
+                <div class="search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" name="cari" placeholder="Cari Buku" value="{{ request('cari') }}">
+                </div>
                 <button type="submit" class="btn-cari">Cari</button>
             </div>
-        </form>
-        
-        <a href="{{ route('petugas.buku.create') }}" class="btn-tambah">Tambah Buku</a>
-    </div>
+            
+            <a href="{{ route('petugas.buku.create') }}" class="btn-tambah">Tambah Buku</a>
+        </div>
 
-    <div class="filter-bar">
-        <div class="filter-left">
-            <select name="kategori">
-                <option>Semua Kategori</option>
-                <option>Novel</option>
-                <option>Komik</option>
-                <option>Pelajaran</option>
-            </select>
-            <select name="status"><option>Semua Status</option></select>
-            <select name="tahun"><option>Semua Tahun</option></select>
+        <div class="filter-bar">
+            <div class="filter-left">
+                {{-- 2. Tambahkan onchange agar otomatis submit saat kategori dipilih --}}
+                <select name="kategori" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    <option value="Novel" {{ request('kategori') == 'Novel' ? 'selected' : '' }}>Novel</option>
+                    <option value="Komik" {{ request('kategori') == 'Komik' ? 'selected' : '' }}>Komik</option>
+                    <option value="Pelajaran" {{ request('kategori') == 'Pelajaran' ? 'selected' : '' }}>Pelajaran</option>
+                </select>
+            </div>
+            <div class="filter-right">
+                {{-- 3. Tambahkan onchange agar otomatis submit saat pengurutan dipilih --}}
+                <select name="urutkan" onchange="this.form.submit()">
+                    <option value="terbaru" {{ request('urutkan') == 'terbaru' ? 'selected' : '' }}>Urutkan : Terbaru</option>
+                    <option value="terlama" {{ request('urutkan') == 'terlama' ? 'selected' : '' }}>Urutkan : Terlama</option>
+                </select>
+            </div>
         </div>
-        <div class="filter-right">
-            <select name="urutkan"><option>Urutkan : Terbaru</option></select>
-        </div>
-    </div>
+    </form>
 
     <div class="book-list">
         @forelse($buku as $b)
@@ -57,7 +63,6 @@
                 </div>
             </div>
             <div class="book-actions">
-                <a href="{{ route('petugas.buku.show', $b->id) }}" class="btn-action detail">Detail</a>
                 <a href="{{ route('petugas.buku.edit', $b->id) }}" class="btn-action edit">Edit</a>
                 <form action="{{ route('petugas.buku.destroy', $b->id) }}" method="POST" style="display:inline;">
                     @csrf 
@@ -70,9 +75,9 @@
         <div class="alert alert-info">Data buku tidak ditemukan.</div>
         @endforelse
     </div>
+
     <div class="mt-3">
         {{ $buku->appends(request()->query())->links() }}
-</div>
     </div>
 </div>
 @endsection

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="dashboard-anggota">
-    <h2 class="main-title">DASHBOARD</h2>
+    <h2 class="title">DASHBOARD</h2>
 
     <div class="welcome-banner">
     <div class="user-profile-section">
@@ -33,37 +33,38 @@
 </div>
 
     <div class="stats-container">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="bi bi-book"></i>
-            </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-book"></i></div>
+        <div class="stat-info">
             <span class="stat-label">Buku Dipinjam</span>
-            <h4 style="margin-top: 10px;">{{ $peminjamanAktif }}</h4>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="bi bi-box-arrow-up-right"></i>
-            </div>
-            <span class="stat-label">Sudah Dikembalikan</span>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="bi bi-journal-x"></i>
-            </div>
-            <span class="stat-label">Buku Jatuh Tempo</span>
-            <h4 style="margin-top: 10px;">{{ $peminjamanAktif }}</h4>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="bi bi-cash-stack"></i>
-            </div>
-            <span class="stat-label">Denda Belum Dibayar</span>
-            <h4 style="margin-top: 10px;">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h4>
+            <span class="stat-value">{{ $peminjamanAktif }}</span>
         </div>
     </div>
+
+    <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-box-arrow-in-right"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Sudah Dikembalikan</span>
+            <span class="stat-value">{{ $totalKembali ?? 0 }}</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-clock-history"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Buku Jatuh Tempo</span>
+            <span class="stat-value">{{ $totalJatuhTempo ?? 0 }}</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Total Denda</span>
+            <span class="stat-value">Rp {{ number_format($totalDenda, 0, ',', '.') }}</span>
+        </div>
+    </div>
+</div>
 
     <div class="action-footer">
         <a href="{{ route('anggota.data-buku') }}" class="btn-cari-buku">
