@@ -8,53 +8,59 @@
         <h2 class="title-section">Detail Anggota</h2>
         
         <div class="table-container">
-            <h3 class="table-header">Detail Anggota</h3>
+            <h3 class="table-header">Informasi Profil</h3>
             <table class="detail-table">
                 <tr>
                     <td>Nama</td>
                     <td>:</td>
-                    <td>{{ $anggota->nama ?? 'Nama Anggota' }}</td>
+                    <td>{{ $anggota->nama }}</td>
                 </tr>
                 <tr>
                     <td>Kelas</td>
                     <td>:</td>
-                    <td>{{ $anggota->kelas ?? '-' }}</td>
+                    <td>{{ $anggota->kelas }}</td>
                 </tr>
                 <tr>
                     <td>Jurusan</td>
                     <td>:</td>
-                    <td>{{ $anggota->jurusan ?? '-' }}</td>
+                    <td>{{ $anggota->jurusan }}</td>
                 </tr>
                 <tr>
-                    <td>No_Telepon</td>
+                    <td>No. Telepon</td>
                     <td>:</td>
-                    <td>{{ $anggota->no_telp ?? '-' }}</td>
+                    <td>{{ $anggota->no_telepon }}</td>
                 </tr>
                 <tr>
                     <td>Status</td>
                     <td>:</td>
                     <td>
-                        <span class="badge badge-nonaktif">Nonaktif</span>
-                        <span class="badge badge-aktif">Aktif</span>
+                        @if($anggota->status == 'Aktif')
+                            <span class="badge badge-aktif">Aktif</span>
+                        @else
+                            <span class="badge badge-nonaktif">Nonaktif</span>
+                        @endif
                     </td>
                 </tr>
             </table>
 
-            <div class="riwayat-section">
-                <p class="riwayat-title">Riwayat Peminjaman</p>
+            {{-- Bagian Riwayat Peminjaman (Opsional kalau lu udah buat relasinya) --}}
+            <div class="riwayat-section mt-4">
+                <p class="riwayat-title">Riwayat Peminjaman Terbaru</p>
                 <ul class="riwayat-list">
-                    <li>Laskar Pelangi (Dipinjam)</li>
-                    <li>Matematika (Dikembalikan)</li>
+                    @forelse($anggota->user->peminjaman ?? [] as $pinjam)
+                        <li>{{ $pinjam->buku->judul }} ({{ $pinjam->status }})</li>
+                    @empty
+                        <li class="text-muted">Belum ada riwayat peminjaman.</li>
+                    @endforelse
                 </ul>
             </div>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn btn-edit">Edit</button>
-            <button class="btn btn-nonaktifkan">Nonaktifkan</button>
-            <button class="btn btn-batal-detail">Batal</button>
+        <div class="action-buttons mt-4">
+            <a href="{{ route('petugas.anggota.edit', $anggota->id) }}" class="btn btn-edit">Edit</a>
+            
+            <a href="{{ route('petugas.anggota.index') }}" class="btn btn-batal-detail text-decoration-none">Kembali</a>
         </div>
     </div>
 </div>
-
 @endsection

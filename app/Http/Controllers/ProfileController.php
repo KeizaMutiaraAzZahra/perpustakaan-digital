@@ -35,50 +35,57 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Validasi
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan,L,P',
-            'no_telp' => 'nullable|string|max:15',
-            'alamat' => 'nullable|string',
-            // Validasi tambahan khusus anggota
-            'kelas' => $user->role == 'anggota' ? 'nullable' : '',
-            'jurusan' => $user->role == 'anggota' ? 'nullable' : '',
-        ]);
+        $rules = [
+            'name'     => 'required|string|max:255',
+            'username' => 'required|unique:users,username,' . $user->id,
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6',
+        ];
 
-        // 2. Update tabel USERS (Data Utama)
-        $user->update([
-            'name' => $request->name,
-        ]);
-
-        // 3. Logika Percabangan Role
-        if ($user->role == 'petugas' || $user->role == 'kepala') {
-            // Update ke tabel PETUGAS
-            // Kita pakai DB builder supaya cepat karena kita belum buat Model Petugas-nya
-            \DB::table('petugas')->updateOrInsert(
-                ['user_id' => $user->id],
-                [
-                    'nama' => $request->name,
-                    'alamat' => $request->alamat,
-                    'jenis_kelamin' => substr($request->jenis_kelamin, 0, 1), // Ambil 'L' atau 'P' sesuai DB kamu
-                    'no_telepon' => $request->no_telp,
-                    'updated_at' => now(),
-                ]
-            );
+        if ($user->role == 'petugas') {
+            $rules['alamat'] = 'required';
+            $rules['no_telp'] = 'required';
         } elseif ($user->role == 'anggota') {
-            // Update ke tabel ANGGOTAS
-            \DB::table('anggotas')->updateOrInsert(
-                ['user_id' => $user->id],
-                [
-                    'nama' => $request->name,
-                    'kelas' => $request->kelas,
-                    'jurusan' => $request->jurusan,
-                    'no_telepon' => $request->no_telp,
-                    'updated_at' => now(),
-                ]
-            );
+            $rules['kelas'] = 'required';
+            $rules['jurusan'] = 'required';
         }
 
-        return redirect()->route($user->role . '.profile.index')->with('success', 'Profil berhasil diperbarui!');
+        $request->validate($rules);
+
+        $user->update([
+            'name'     => $request->name,
+            'username' => $request->username,
+            'email'    => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+        ]);
+
+        
+        if ($user->role == 'kepala') {
+           
+            \DB::table('petugas')->where('user_id', $user->id)->update([
+                'nama' => $request->name,
+                'updated_at' => now(),
+            ]);
+        } 
+        elseif ($user->role == 'petugas') {
+            
+            \DB::table('petugas')->where('user_id', $user->id)->update([
+                'nama'        => $request->name,
+                'alamat'      => $request->alamat,
+                'no_telepon'  => $request->no_telp,
+                'updated_at'  => now(),
+            ]);
+        } 
+        elseif ($user->role == 'anggota') {
+           
+            \DB::table('anggotas')->where('user_id', $user->id)->update([
+                'nama'        => $request->name,
+                'kelas'       => $request->kelas,
+                'jurusan'     => $request->jurusan,
+                'updated_at'  => now(),
+            ]);
+        }
+
+        return redirect()->route($user->role . '.profile.index')->with('success', 'Profil Berhasil Diperbarui!');
     }
 }

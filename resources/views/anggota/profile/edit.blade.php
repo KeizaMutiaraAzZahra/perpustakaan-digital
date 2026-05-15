@@ -26,6 +26,11 @@
             </div>
 
             <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" value="{{ old('username', $user->username) }}" required>
+            </div>
+            
+            <div class="form-group">
                 <label>Email</label>
                 <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
             </div>

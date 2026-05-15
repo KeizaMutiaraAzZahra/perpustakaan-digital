@@ -28,40 +28,24 @@
                 <p>{{ $user->username }}</p>
             </div>
 
-            {{-- Bagian Jenis Kelamin --}}
-            <div class="info-item mb-3">
-                <label class="text-muted d-block small uppercase fw-bold">Jenis Kelamin</label>
-                <p class="mb-0 text-dark">
-                    @php
-                        $jk = $user->petugas->jenis_kelamin ?? '-';
-                    @endphp
-                    {{ $jk == 'L' || $jk == 'Laki-laki' ? 'Laki-laki' : ($jk == 'P' || $jk == 'Perempuan' ? 'Perempuan' : '-') }}
-                </p>
-            </div>
-
-            {{-- Bagian No Telepon --}}
-            <div class="info-item mb-3">
-                <label class="text-muted d-block small uppercase fw-bold">No Telepon</label>
-                <p class="mb-0 text-dark">{{ $user->petugas->no_telepon ?? '-' }}</p>
-            </div>
-
-            {{-- Bagian Alamat --}}
-            <div class="info-item mb-3">
-                <label class="text-muted d-block small uppercase fw-bold">Alamat</label>
-                <p class="mb-0 text-dark">{{ $user->petugas->alamat ?? '-' }}</p>
+            <div class="info-item">
+                <label>Email</label>
+                <p>{{ $user->email ?? '-' }}</p>
             </div>
 
             <div class="info-item">
                 <label>Status Akun</label>
-                <p class="status-active"><i class="bi bi-check-circle-fill"></i> Aktif</p>
+                <p class="status-active">
+                    <i class="bi bi-check-circle-fill"></i> 
+                    {{ ucfirst($user->status) }}
+                </p>
             </div>
             
             <hr class="divider">
             <div class="profile-actions">
-                <a href="{{ route('petugas.profile.edit') }}">
+                <a href="{{ route('kepala.profile.edit') }}">
                     <button class="btn-edit">Edit Profil</button>
                 </a>
-
             </div>
         </div>
     </div>

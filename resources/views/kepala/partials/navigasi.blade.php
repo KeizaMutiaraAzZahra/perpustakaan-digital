@@ -26,6 +26,9 @@
         <a href="{{ route('kepala.laporan.denda') }}" class="nav-item">
             <i class="bi bi-journal-x"></i> <span>Laporan Denda</span>
         </a>
+            <a href="{{ route('kepala.profile.index') }}" class="nav-item">
+            <i class="bi bi-person-circle"></i> <span>Profile</span>
+        </a>
 
         <div class="spacer"></div> <form action="{{ route('logout') }}" method="POST">
             @csrf

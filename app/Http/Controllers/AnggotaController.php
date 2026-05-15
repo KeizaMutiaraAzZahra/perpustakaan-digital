@@ -134,7 +134,16 @@ class AnggotaController extends Controller
 
         return redirect()->route('petugas.anggota.index')->with('success', 'Data berhasil diupdate!');
     }
-    /**
+
+    public function show($id)
+    {
+        // Cari data anggota berdasarkan ID, sertakan data user-nya juga biar lengkap
+        $anggota = \App\Models\Anggota::with('user')->findOrFail($id);
+
+        // Kirim data ke view detail
+        return view('petugas.anggota.show', compact('anggota'));
+    }
+        /**
      * Hapus Data (Delete)
      */
     public function destroy($id)

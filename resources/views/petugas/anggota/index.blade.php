@@ -43,7 +43,7 @@
                         </span>
                     </td>
                     <td class="text-center">
-                        <a href="#" class="btn-detail">Detail</a>
+                        <a href="{{route('petugas.anggota.show', $row->id)}}" class="btn-detail">Detail</a>
                     </td>
                 </tr>
                 @empty
