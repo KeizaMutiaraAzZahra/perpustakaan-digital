@@ -64,10 +64,15 @@
             </div>
             <div class="book-actions">
                 <a href="{{ route('petugas.buku.edit', $b->id) }}" class="btn-action edit">Edit</a>
+
                 <form action="{{ route('petugas.buku.destroy', $b->id) }}" method="POST" style="display:inline;">
                     @csrf 
                     @method('DELETE')
-                    <button type="submit" class="btn-action hapus" onclick="return confirm('Yakin ingin menghapus buku ini?')">Hapus</button>
+
+                    <button type="submit" class="btn-action hapus"
+                        onclick="return handleHapus({{ $b->sedang_dipinjam }})">
+                        Hapus
+                    </button>
                 </form>
             </div>
         </div>
@@ -81,3 +86,13 @@
     </div>
 </div>
 @endsection
+
+<script>
+function handleHapus(sedangDipinjam) {
+    if (sedangDipinjam > 0) {
+        alert('Buku sedang dipinjam, tidak bisa dihapus!');
+        return false;
+    }
+    return confirm('Yakin ingin menghapus buku ini?');
+}
+</script>

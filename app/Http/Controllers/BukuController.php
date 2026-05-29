@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Wajib ditambahkan agar Storage:: bekerja
 
@@ -38,7 +40,12 @@ class BukuController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $buku = $query->paginate(10);
+        $buku = $query->withCount([
+            'peminjaman as sedang_dipinjam' => function ($q) {
+                $q->whereNull('tanggal_kembali');
+            }
+        ])->paginate(10);
+        
         return view('petugas.buku.index', compact('buku'));
 }
 
@@ -133,14 +140,23 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
-        // Pastikan pengecekan storage benar
+        $sedangDipinjam = $buku->peminjaman()
+            ->whereNull('tanggal_kembali')
+            ->exists();
+
+        if ($sedangDipinjam) {
+            return redirect()->route('petugas.buku.index')
+                ->with('error', 'Buku tidak bisa dihapus karena sedang dipinjam!');
+        }
+
         if ($buku->gambar && Storage::disk('public')->exists($buku->gambar)) {
             Storage::disk('public')->delete($buku->gambar);
         }
-        
+
         $buku->delete();
 
-        return redirect()->route('petugas.buku.index')->with('success', 'Buku Berhasil Dihapus!');
+        return redirect()->route('petugas.buku.index')
+            ->with('success', 'Buku Berhasil Dihapus!');
     }
 
     public function anggota(Request $request)
@@ -188,10 +204,22 @@ class BukuController extends Controller
 
     public function showDetailPinjam($id)
     {
-        // findOrFail sudah benar, tapi tambahkan fresh() jika dirasa datanya delay
-        $buku = Buku::findOrFail($id)->fresh(); 
-        
-        return view('anggota.detail-pinjam', compact('buku'));
+        $buku = Buku::findOrFail($id);
+
+        $anggota = Anggota::where('user_id', auth()->id())->first();
+
+        $totalDipinjam = Peminjaman::where('anggota_id', $anggota->id)
+            ->whereNull('tanggal_kembali')
+            ->sum('jumlah');
+
+        $batasMaksimal = 3;
+
+        $sisa = max(0, $batasMaksimal - $totalDipinjam);
+
+        return view('anggota.detail-pinjam', [
+            'buku' => $buku,
+            'sisa' => $sisa
+        ]);
     }
 
 }

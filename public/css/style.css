@@ -2115,6 +2115,12 @@
     justify-content: space-between;
     align-items: flex-end;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.data-buku-anggota .book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
 .data-buku-anggota .book-info-wrapper {
@@ -2158,14 +2164,50 @@
 .data-buku-anggota .status-tersedia { background: #28a745; }
 .data-buku-anggota .status-kosong { background: #dc3545; }
 
+/* Base (semua tombol sama) */
 .data-buku-anggota .btn-pinjam {
-    background: #4A6CF7;
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
     border: none;
-    padding: 6px 15px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+/* Default (Pinjam) */
+.data-buku-anggota .btn-pinjam.default {
+    color:  #4A6CF7 !important;
+}
+
+/* Diproses */
+.data-buku-anggota .btn-pinjam.proses {
+    background: linear-gradient(135deg, #ffc107, #ff9800) !important;;
+    color: #000 !important;
+    opacity: 1 !important; /* Supaya tidak pudar */
+    
+}
+
+/* Dipinjam */
+.data-buku-anggota .btn-pinjam.dipinjam {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: #fff !important;
+}
+
+/* Disabled */
+.data-buku-anggota .btn-pinjam.disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.data-buku-anggota .action-wrapper {
+    margin-top: 15px;
 }
 
 /* Pagination */
@@ -2203,6 +2245,8 @@
     background: #4A6CF7;
     color: white;
 }
+
+/* CSS Data Denda Anggota */
 
 .data-denda-anggota {
     padding: 20px;
@@ -2846,3 +2890,125 @@
         margin-bottom: 8px;
     }
 }
+
+/* Tombol cetak laporan */
+.cetak-laporan {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2563eb; /* biru */
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-left: 520px;
+    margin-top: 25px;
+}
+
+/* Hover effect */
+.cetak-laporan:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Active (saat diklik) */
+.cetak-laporan:active {
+    transform: scale(0.97);
+}
+
+/* Container Utama */
+.laporan-denda .card-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    min-height: 500px;
+}
+
+/* Header & Underline Biru */
+.laporan-denda .title {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.laporan-denda .underline {
+    width: 50px;
+    height: 4px;
+    background-color: #3b71ca;
+    border-radius: 2px;
+}
+
+/* Tabel Custom */
+.laporan-denda .custom-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.laporan-denda .custom-table thead {
+    background-color: #f8f9fa;
+}
+
+.laporan-denda .custom-table th {
+    padding: 15px;
+    color: #6c757d;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 2px solid #eee;
+}
+
+.laporan-denda .custom-table td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+}
+
+/* Badge Status */
+.laporan-denda .badge {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.laporan-denda .badge-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.laporan-denda .badge-danger {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Button Cetak */
+.laporan-denda .action-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.laporan-denda .btn-cetak {
+    background-color: #2b63d9;
+    color: white !important;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.laporan-denda .btn-cetak:hover {
+    background-color: #1a4ab0;
+    box-shadow: 0 4px 10px rgba(43, 99, 217, 0.3);
+}
+
+.laporan-denda .text-center { text-align: center; }
+.laporan-denda .text-danger { color: #dc3545 !important; }

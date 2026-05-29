@@ -44,7 +44,7 @@ Route::prefix('kepala')->name('kepala.')->middleware(['auth', 'can:role,"kepala"
     Route::get('/laporan/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
     Route::get('/laporan/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     Route::get('/laporan/denda', [LaporanController::class, 'denda'])->name('laporan.denda');
-    Route::get('/kepala/laporan/cetak', [LaporanController::class, 'cetak'])->name('kepala.laporan.cetak');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
     
     Route::resource('petugas', PetugasController::class);
     Route::patch('/petugas/{id}/status', [PetugasController::class, 'toggleStatus'])
@@ -68,8 +68,12 @@ Route::prefix('petugas')->name('petugas.')->middleware(['auth', 'can:role,"petug
     Route::put('/peminjaman/kembalikan/{id}', [PeminjamanController::class, 'kembalikan'])->name('peminjaman.kembalikan');
     
     Route::get('/pengembalian', [PeminjamanController::class, 'pengembalian'])->name('pengembalian');
+    Route::put('/konfirmasi-pengembalian/{id}', [PeminjamanController::class, 'konfirmasiPengembalian']
+    )->name('konfirmasi-pengembalian');
+
     Route::get('/denda', [PeminjamanController::class, 'denda'])->name('denda');
-    Route::put('/denda-lunas/{id}', [PeminjamanController::class, 'updateDenda'])->name('denda-lunas');
+    Route::put('/denda-lunas/{id}', [PeminjamanController::class, 'bayarDenda'])
+    ->name('denda-lunas');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

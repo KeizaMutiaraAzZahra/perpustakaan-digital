@@ -42,7 +42,9 @@
                 @endforelse
             </tbody>
         </table>
-        <a href="{{ route('kepala.laporan.cetak', ['status' => 'Dipinjam']) }}" class="btn btn-primary">Cetak Peminjaman</a>
     </div>
+    <a href="{{ route('kepala.laporan.cetak', ['status' => 'Peminjaman']) }}" target="_blank" class="cetak-laporan">
+        Cetak Laporan Peminjaman
+    </a>
 </section>
 @endsection

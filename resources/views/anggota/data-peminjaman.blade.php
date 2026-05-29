@@ -36,9 +36,16 @@
                         </td>
 
                         <td class="text-center">
-                            <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn-kembalikan">
-                                Kembalikan
-                            </a>
+                            @if($aktif->status == 'Dipinjam' || $aktif->status == 'Terlambat')
+                                <a href="{{ route('anggota.form-pengembalian', $aktif->id) }}" class="btn-kembalikan">
+                                    Kembalikan
+                                </a>
+                            @else
+                                <button class="btn-kembalikan" 
+                                    onclick="alert('Buku belum dipinjam, tidak bisa dikembalikan!')">
+                                    Kembalikan
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

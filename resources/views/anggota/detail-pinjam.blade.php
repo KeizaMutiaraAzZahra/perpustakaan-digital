@@ -149,7 +149,7 @@
                             <label class="form-label" style="display:block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; margin-bottom: 0.75rem;">JUMLAH PINJAM</label>
                             <div class="d-flex align-items-center gap-3">
                                 <input type="number" name="jumlah" class="form-control input-jumlah" 
-                                       value="1" min="1" max="{{ $buku->stok }}">
+                                       value="1" min="1" max="{{ min($buku->stok, $sisa) }}">
                                 <span class="hint-text" style="font-size: 0.85rem; color: #64748b;">Bisa pinjam lebih dari 1 buku</span>
                             </div>
                         </div>

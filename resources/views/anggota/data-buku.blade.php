@@ -67,16 +67,22 @@
                                     ->first();
             @endphp
 
-            <div class="action-wrapper" style="margin-top: 15px;">
+            <div class="action-wrapper">
                 @if($statusPinjam)
-                    <button class="btn-pinjam" disabled style="background-color: {{ $statusPinjam->status == 'Diproses' ? '#ffc107' : '#198754' }}; color: {{ $statusPinjam->status == 'Diproses' ? '#000' : '#fff' }}; opacity: 1; border: none; width: 100%; cursor: default;">
+                    {{-- Tombol saat status Menunggu atau Sedang Dipinjam --}}
+                    <button class="btn-pinjam {{ $statusPinjam->status == 'Diproses' ? 'proses' : 'dipinjam' }}" disabled>
                         <i class="bi {{ $statusPinjam->status == 'Diproses' ? 'bi-clock' : 'bi-check-circle' }}"></i>
                         {{ $statusPinjam->status == 'Diproses' ? 'Menunggu Konfirmasi' : 'Sedang Dipinjam' }}
                     </button>
                 @else
-                    <a href="{{ route('anggota.detail-pinjam', $item->id) }}" class="btn-pinjam text-center d-block" style="width: 100%; text-decoration: none; line-height: 2.5;">
-                        {{ $item->stok <= 0 ? 'Stok Habis' : 'Pinjam' }}
-                    </a>
+                    {{-- Tombol Pinjam Biasa --}}
+                    @if($item->stok <= 0)
+                        <button class="btn-pinjam" style="background: #ccc; color: #666;" disabled>Stok Habis</button>
+                    @else
+                        <a href="{{ route('anggota.detail-pinjam', $item->id) }}" class="btn-pinjam default">
+                            Pinjam
+                        </a>
+                    @endif
                 @endif
             </div>
         </div>

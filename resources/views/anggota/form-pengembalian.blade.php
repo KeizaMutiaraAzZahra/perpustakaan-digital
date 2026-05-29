@@ -51,14 +51,6 @@
             <div class="-form-pengembalian-anggota-group">
                 <label>Denda</label>
                 <span>:</span>
-                {{-- Contoh perhitungan denda (misal 1000 per hari) --}}
-                @php
-                    $denda = 0;
-                    if(now() > $data->jatuh_tempo) {
-                        $hari_terlambat = now()->diffInDays($data->jatuh_tempo);
-                        $denda = $hari_terlambat * 1000;
-                    }
-                @endphp
                 <input type="text" value="Rp {{ number_format($denda, 0, ',', '.') }}" readonly>
             </div>
 

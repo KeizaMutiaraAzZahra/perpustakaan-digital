@@ -42,10 +42,10 @@
     </table>
 
     <div class="footer">
-        <p>Tasikmalaya, {{ date('d F Y') }}</p>
+        <p>Banjar, {{ date('d F Y') }}</p>
         <p>Kepala Perpustakaan,</p>
         <br><br><br>
-        <p><strong>( {{ Auth::user()->name }} )</strong></p>
+        <p><strong>( {{ user()->name }} )</strong></p>
     </div>
 </body>
 </html>

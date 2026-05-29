@@ -26,7 +26,6 @@
                 <option value="Terlambat" {{ request('status') == 'Terlambat' ? 'selected' : '' }}>Terlambat</option>
             </select>
 
-            {{-- Search Box & Button --}}
             <div class="search-wrapper">
                 <div class="search-box">
                     <input type="text" name="cari" placeholder="Cari Judul Buku..." value="{{ request('cari') }}">
@@ -55,9 +54,9 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $item->buku->judul }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->jatuh_tempo)->diffInDays($item->tanggal_kembali ?? now()) }} Hari</td>
-                        <td>Rp. 2.000</td>
-                        <td>Rp. {{ number_format($item->denda, 0, ',', '.') }}</td>
+                        <td>{{ $item->hari_terlambat }} Hari</td>
+                        <td>Rp. 5.000</td>
+                        <td>Rp. {{ number_format($item->total_denda, 0, ',', '.') }}</td>
                         <td><span class="badge-status">{{ $item->status }}</span></td>
                     </tr>
                     @empty
